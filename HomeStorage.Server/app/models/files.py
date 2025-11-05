@@ -2,11 +2,8 @@ import uuid
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
-from datetime import datetime
-
-
-class Base(DeclarativeBase):  # Base class for declarative models
-    pass
+from datetime import datetime, timezone
+from . import Base
 
 
 class File(Base):
@@ -48,7 +45,7 @@ class File(Base):
 
     created_at: Mapped[datetime] = mapped_column(
         DateTime,
-        default=datetime.now(datetime.timezone.utc),
+        default=datetime.now(timezone.utc),
         nullable=False
     )
 
