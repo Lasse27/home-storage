@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import AppFooter from './components/AppFooter.vue';
-import AppHeader from './components/AppHeader.vue';
 import AppSidebar from './components/AppSidebar.vue';
 import HomePage from './pages/HomePage.vue';
 
@@ -8,23 +6,21 @@ import HomePage from './pages/HomePage.vue';
 
 <template>
   <div class="app">
-    <AppHeader style="grid-area: header;" />
-    <AppSidebar style="grid-area: sidebar;" />
-    <HomePage style="grid-area: main;" />
-    <AppFooter style="grid-area: footer;" />
+    <AppSidebar style="grid-area: sidebar; z-index: 99;" />
+    <HomePage style="grid-area: main; z-index: 99;" />
+    <AppFooter style="grid-area: footer; z-index: 100;" />
   </div>
 </template>
 
 <style scoped>
 .app {
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: 1fr;
   grid-template-columns: 15vw 1fr;
   grid-template-areas:
-    "header header"
-    "sidebar main"
-    "footer footer";
+    "sidebar main";
   height: 100vh;
   width: 100vw;
+  background-color: var(--surface-50);
 }
 </style>

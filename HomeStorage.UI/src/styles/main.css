@@ -19,12 +19,16 @@
     --bg: #f7f9fb;
     /* seidenes, sehr helles Grau-Blau */
     --surface: #ffffff;
+    --surface-alt: #f1f5f9;
+    --surface-alt2: #e2e8f0;
+    --surface-alt3: #cbd5e1;
+
     /* Karten, Panels */
     --muted: #6b7280;
     /* dezentes Grau für sekundären Text */
     --text: #0f1724;
     /* fast Schwarz, sehr leicht weich */
-    --border: rgba(15, 23, 36, 0.08);
+    --border: rgba(15, 23, 36, 0.15);
 
     /* UI Maße */
     --radius-sm: 8px;
@@ -94,10 +98,10 @@ body {
 }
 
 .app-title {
-    font-weight: 600;
-    font-size: 1.5rem;
+    font-weight: 700;
+    font-size: 1.75rem;
+    line-height: 0.5;
     letter-spacing: -0.02em;
-    color: var(--accent-blue);
 }
 
 /* Buttons */
@@ -338,6 +342,24 @@ button:focus {
         opacity: 1;
         transform: none;
     }
+}
+
+:root {
+    --surface-50: #F7F9FB;
+    --surface-100: #F1F4F7;
+    --surface-200: #E3E8EF;
+    --surface-300: #D4D9E1;
+    --surface-400: #C3CBD5;
+}
+
+
+:root[data-theme="dark"],
+[data-theme="dark"] {
+    --surface-900: #0B0F14;
+    --surface-800: #0F1720;
+    --surface-700: #1A2631;
+    --surface-600: #24313D;
+    --surface-500: #304150;
 }
 
 /* END */
