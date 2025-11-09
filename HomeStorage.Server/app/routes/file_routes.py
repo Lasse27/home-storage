@@ -13,6 +13,7 @@ from flask import Blueprint, request, jsonify, g
 from app.repositories import FileRepository
 from app.services.file_service import FileService
 from app.services.exceptions import ServiceException
+from app.routes.exceptions import InvalidContentException, InvalidContentTypeException, RouteException
 
 
 file_bp = Blueprint("file_bp", __name__, url_prefix="/files")
@@ -71,10 +72,33 @@ def read_single_file(file_id: str):
 #     return jsonify({"message": f"Delete file with ID: {file_id}"}), 200
 
 
-# # Uploads a new file
-# @file_bp.route("/upload", methods=["POST"])
-# def upload_file():
-#     return jsonify({"message": "Upload new file"}), 201
+# Uploads a new file
+@file_bp.route("/upload", methods=["POST"])
+def upload_file():
+    try:
+        # Chck for request content type
+        if 'multipart/form-data' not in request.content_type:
+            raise InvalidContentTypeException(
+                message="Content-Type must be multipart/form-data.", meta={"content_type": request.content_type})
+
+        # Check for file in request
+        if 'file' not in request.files:
+            raise InvalidContentException(
+                message="No file part in the request.", meta={})
+
+        # Initialize repository and service
+        repository = FileRepository(g.db)
+        service = FileService(repository)
+
+        # Call service method
+        file = service.create_file(request.files['file'])
+        return jsonify(file), 201
+
+    except RouteException | ServiceException as rs_e:
+        return jsonify({"error": rs_e.message, "meta": rs_e.meta}), rs_e.status
+
+    except Exception as e:
+        return jsonify({"error": "Unhandled server error", "meta": str(e)}), 500
 
 
 # # Downloads a specific file by ID

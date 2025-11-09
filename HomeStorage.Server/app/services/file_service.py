@@ -1,7 +1,7 @@
 from app.repositories import FileRepository, RepositoryException
 from app.models.files import File
 from app.services.exceptions import *
-
+from werkzeug.datastructures import FileStorage
 
 class FileService:
 
@@ -20,7 +20,8 @@ class FileService:
 
     ## Create Methods ##
 
-    def create_file(self, file) -> None:
+    def create_file(self, file: FileStorage) -> None:
+        file.mimetype
         pass
 
     ## Read Methods ##
