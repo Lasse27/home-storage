@@ -52,4 +52,4 @@ def get_database_url():
     if db_name is None:
         logging.warning("DB_NAME nicht gesetzt!")
 
-    return f"postgresql://{user}:{password}@localhost:5432/{db_name}"
+    return f"postgresql://{user}:{password}@db:5432/{db_name}"
