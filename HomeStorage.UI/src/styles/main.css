@@ -1,0 +1,343 @@
+/*
+  FileServer App - Theme CSS
+  - Light + Dark mode using data-theme attribute on <html> or <body>
+  - Akzentfarben: Blau / Hellblau / Türkis
+  - Fokus auf ruhige, angenehme Formen (runde Ecken, sanfte Schatten)
+  - Accessibility: ausreichender Kontrast für Text und interaktive Elemente
+*/
+
+:root {
+    /* --- AKZENTFARBEN (Primär, Sekundär, Türkis) --- */
+    --accent-blue: #0b74ff;
+    /* kräftiges Blau */
+    --accent-sky: #6ec6ff;
+    /* hellblau */
+    --accent-teal: #2ad1c9;
+    /* türkis */
+
+    /* Allgemeine Hell-Theme Farben */
+    --bg: #f7f9fb;
+    /* seidenes, sehr helles Grau-Blau */
+    --surface: #ffffff;
+    /* Karten, Panels */
+    --muted: #6b7280;
+    /* dezentes Grau für sekundären Text */
+    --text: #0f1724;
+    /* fast Schwarz, sehr leicht weich */
+    --border: rgba(15, 23, 36, 0.08);
+
+    /* UI Maße */
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+    --shadow-xs: 0 1px 2px rgba(15, 23, 36, 0.04);
+    --shadow-sm: 0 6px 18px rgba(2, 6, 23, 0.06);
+
+    --control-height: 44px;
+    --max-width: 1200px;
+}
+
+/* Dark theme overrides */
+:root[data-theme="dark"],
+[data-theme="dark"] {
+    --bg: #0b0f14;
+    /* dunkles Nachtblau */
+    --surface: #0f1720;
+    /* Panel */
+    --muted: #94a3b8;
+    /* helleres Grau-Blau */
+    --text: #e6eef9;
+    /* sehr helles Blauweiß */
+    --border: rgba(255, 255, 255, 0.06);
+
+    /* Dunklere Akzente: leicht gedämpft, trotzdem erkennbar */
+    --accent-blue: #1e90ff;
+    --accent-sky: #4fc3ff;
+    --accent-teal: #33c9b6;
+
+    --shadow-xs: 0 1px 2px rgba(2, 6, 23, 0.6);
+    --shadow-sm: 0 10px 30px rgba(2, 6, 23, 0.65);
+}
+
+/* ----- Basiselemente ----- */
+html,
+body {
+    height: 100%;
+    margin: 0;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: linear-gradient(180deg, var(--bg), color-mix(in srgb, var(--bg) 96%, transparent));
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+    max-width: var(--max-width);
+    margin: 24px auto;
+    padding: 20px;
+}
+
+/* Karten / Panels */
+.card {
+    background: var(--surface);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border);
+    padding: 14px;
+}
+
+.header {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.app-title {
+    font-weight: 600;
+    font-size: 1.5rem;
+    letter-spacing: -0.02em;
+    color: var(--accent-blue);
+}
+
+/* Buttons */
+button {
+    height: var(--control-height);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 14px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: transform .08s ease, box-shadow .12s ease;
+}
+
+button:active {
+    transform: translateY(1px);
+}
+
+button:focus {
+    outline: 3px solid color-mix(in srgb, var(--accent-blue) 30%, transparent);
+    outline-offset: 2px;
+}
+
+/* Primärer Akzentbutton */
+.btn-primary {
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-sky));
+    color: white;
+    box-shadow: 0 6px 18px color-mix(in srgb, var(--accent-blue) 18%, black);
+}
+
+/* Sekundär / Ghost */
+.btn-ghost {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+}
+
+/* Icon-Buttons (rund) */
+.icon-btn {
+    width: 40px;
+    height: 40px;
+    display: inline-grid;
+    place-items: center;
+    border-radius: 10px;
+    background: transparent;
+    border: 1px solid var(--border);
+}
+
+/* Suchleiste und Controls */
+.search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+}
+
+.search input {
+    border: 0;
+    outline: 0;
+    background: transparent;
+    font-size: 0.95rem;
+    color: var(--text);
+    width: 240px;
+}
+
+/* Datei-Liste / Tabelle */
+.files {
+    margin-top: 12px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+}
+
+.files-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+.files-table thead {
+    background: color-mix(in srgb, var(--surface) 96%, black);
+}
+
+.files-table th,
+.files-table td {
+    padding: 12px 14px;
+    text-align: left;
+    border-bottom: 1px dashed var(--border);
+}
+
+.files-table tr:hover {
+    background: color-mix(in srgb, var(--accent-sky) 6%, transparent);
+}
+
+.file-name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.file-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    flex: 0 0 36px;
+    background: linear-gradient(180deg, color-mix(in srgb, var(--accent-sky) 30%, transparent), transparent);
+    border: 1px solid var(--border);
+}
+
+/* Fortschrittsbalken für Uploads/Downloads */
+.progress {
+    height: 10px;
+    background: color-mix(in srgb, var(--border) 35%, transparent);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.progress-inner {
+    height: 100%;
+    width: 0%;
+    border-radius: 999px;
+    transition: width 400ms cubic-bezier(.2, .8, .2, 1);
+    background: linear-gradient(90deg, var(--accent-teal), var(--accent-blue));
+}
+
+/* Badge */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    background: color-mix(in srgb, var(--accent-sky) 12%, transparent);
+    color: var(--text);
+    border: 1px solid var(--border);
+}
+
+/* Modals */
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: rgba(2, 6, 23, 0.5);
+    z-index: 60;
+}
+
+.modal {
+    width: min(720px, calc(100% - 48px));
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    padding: 18px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border);
+}
+
+/* Kleine Utilities */
+.row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.col {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.text-muted {
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+/* Responsiv */
+@media (max-width:720px) {
+    .container {
+        padding: 12px;
+    }
+
+    .search input {
+        width: 120px;
+    }
+
+    .app-title {
+        font-size: 1rem;
+    }
+}
+
+/* Fokus auf Zugänglichkeit: hoher Kontrast für aktive Elemente */
+:focus {
+    outline: none;
+}
+
+.btn-primary:focus,
+.icon-btn:focus {
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent-blue) 18%, transparent);
+}
+
+/* Helfer: Theme toggler falls prefers-color-scheme vorhanden */
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) {
+        --bg: var(--bg);
+    }
+}
+
+/* Beispiel: leichte Glas-Effekt-Variante für Header-Toolbar */
+.toolbar {
+    background: color-mix(in srgb, var(--surface) 80%, transparent);
+    backdrop-filter: blur(6px) saturate(110%);
+    border-radius: 14px;
+    padding: 8px;
+    border: 1px solid var(--border);
+}
+
+/* Animationen (sparsam) */
+.fade-in {
+    animation: fadeIn .22s ease both;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* END */
