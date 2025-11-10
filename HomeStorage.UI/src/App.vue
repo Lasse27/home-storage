@@ -16,11 +16,11 @@ import HomePage from './pages/HomePage.vue';
 .app {
   display: grid;
   grid-template-rows: 1fr;
-  grid-template-columns: 15vw 1fr;
+  grid-template-columns: 17.5vw 1fr;
   grid-template-areas:
     "sidebar main";
   height: 100vh;
   width: 100vw;
-  background-color: var(--surface-50);
+  background-color: var(--clr-surface-a0);
 }
 </style>

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { Home, Folder, Settings, Info } from 'lucide-vue-next'
+import { Home, Folder, Settings, Info, CloudDownload } from 'lucide-vue-next'
 
 const activeItem = ref('home')
 
@@ -18,22 +18,16 @@ const setActive = (id: string) => {
 
 <template>
   <aside class="sidebar">
-    <header class="sidebar-header">
-      <h2 class="app-title">HomeStorage</h2>
+    <header>
+      <component :is="CloudDownload"/>
+      <span> HomeStorage </span>
     </header>
 
     <nav class="sidebar-nav">
-      <ul>
-        <li
-          v-for="item in navItems"
-          :key="item.id"
-          :class="{ active: activeItem === item.id }"
-          @click="setActive(item.id)"
-        >
-          <component :is="item.icon" class="icon" />
+        <button v-for="item in navItems" :key="item.id" class="sidebar-nav-button nav-button" :class="{ 'active': activeItem === item.id }" @click="setActive(item.id)">
+          <component :is="item.icon"/>
           <span>{{ item.label }}</span>
-        </li>
-      </ul>
+        </button>
     </nav>
     <footer class="sidebar-footer">
       <small>100 GB Free Storage</small>
@@ -48,64 +42,88 @@ const setActive = (id: string) => {
 
 <style scoped>
 .sidebar {
+  /* Size */
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+
+  /* Display */
   display: flex;
   flex-direction: column;
-  background-color: var(--surface-100);
-  border-right: 1px solid var(--border);
-  box-shadow: rgba(0, 0, 0, 0.08) 2px 0 6px;
-  color: var(--text-color);
+
+  /* Styling */
+  background-color: var(--clr-surface-a10);
+  border-right: 4px solid var(--clr-primary-a0);
 }
 
-.sidebar-header {
-  padding: 1.2rem 1rem;
-  font-weight: 600;
-  font-size: 1.2rem;
-  border-bottom: 1px solid var(--border);
-  text-align: center;
-  background-color: var(--surface-200);
-}
 
-.sidebar-nav {
-  flex: 1;
-  overflow-y: auto;
-}
+.sidebar header {
+  /* Size */
+  width: 100%;
+  padding: 2rem 1rem;
+  box-sizing: border-box;
 
-.sidebar-nav ul {
-  list-style: none;
-  margin: 0;
-  padding: 0.5rem;
-}
-
-.sidebar-nav li {
+  /* Display */
   display: flex;
   align-items: center;
-  padding: 0.7rem 1rem;
-  border-radius: 0.5rem;
+  justify-content: center;
+  gap: 0.5rem;
+
+  font-weight: 500;
+  font-size: 2rem;
+  color: var(--clr-primary-a10);
+  margin: 0;
+}
+
+
+.sidebar .sidebar-nav {
+  /* Size */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  flex-grow: 1;
+  box-sizing: border-box;
+}
+
+
+.sidebar-nav-button {
+  /* Size */
+  padding: 0.75rem 1rem;
+  box-sizing: border-box;
   cursor: pointer;
-  transition: background-color 0.2s ease;
-}
+  width: 100%;
 
-.sidebar-nav li:hover {
-  background-color: var(--surface-hover);
-}
+  /* Display */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
 
-.sidebar-nav li.active {
-  background-color: var(--primary-light);
-  color: var(--primary-color);
+  /* Styling */
+  font-size: 1rem;
   font-weight: 600;
+  list-style: none;
+  color: var(--clr-light-a0);
+  background-color: var(--clr-surface-a20);
+  border-radius: 0.75rem;
 }
 
-.icon {
-  width: 20px;
-  height: 20px;
-  margin-right: 0.8rem;
+.sidebar-nav-button.active {
+  background-color: var(--clr-primary-a10);
 }
 
 .sidebar-footer {
-  padding: 0.8rem;
+  /* Size */
+  width: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
+
+  /* Display */
   text-align: center;
-  border-top: 1px solid var(--border);
-  font-size: 0.85rem;
-  color: var(--text-secondary);
+
+  font-size: 1rem;
+  color: var(--clr-light-a0);
+  border-top: 1px solid var(--clr-surface-a30);
 }
 </style>

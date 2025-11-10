@@ -1,365 +1,118 @@
-/*
-  FileServer App - Theme CSS
-  - Light + Dark mode using data-theme attribute on <html> or <body>
-  - Akzentfarben: Blau / Hellblau / Türkis
-  - Fokus auf ruhige, angenehme Formen (runde Ecken, sanfte Schatten)
-  - Accessibility: ausreichender Kontrast für Text und interaktive Elemente
-*/
-
 :root {
-    /* --- AKZENTFARBEN (Primär, Sekundär, Türkis) --- */
-    --accent-blue: #0b74ff;
-    /* kräftiges Blau */
-    --accent-sky: #6ec6ff;
-    /* hellblau */
-    --accent-teal: #2ad1c9;
-    /* türkis */
+    /** Colors from: https://colorffy.com/ */
 
-    /* Allgemeine Hell-Theme Farben */
-    --bg: #f7f9fb;
-    /* seidenes, sehr helles Grau-Blau */
-    --surface: #ffffff;
-    --surface-alt: #f1f5f9;
-    --surface-alt2: #e2e8f0;
-    --surface-alt3: #cbd5e1;
+    /** Base colors */
+    --clr-dark-a0: #000000;
+    --clr-light-a0: #ffffff;
 
-    /* Karten, Panels */
-    --muted: #6b7280;
-    /* dezentes Grau für sekundären Text */
-    --text: #0f1724;
-    /* fast Schwarz, sehr leicht weich */
-    --border: rgba(15, 23, 36, 0.15);
+    /** Theme primary colors */
+    --clr-primary-a0: #4caf50;
+    --clr-primary-a10: #63b863;
+    --clr-primary-a20: #79c176;
+    --clr-primary-a30: #8dca89;
+    --clr-primary-a40: #a0d39c;
+    --clr-primary-a50: #b4dcb0;
+    --clr-primary-a60: #c7e5c3;
+    --clr-primary-a70: #d9eed7;
+    --clr-primary-a80: #ecf6eb;
+    --clr-primary-a90: #ffffff;
 
-    /* UI Maße */
-    --radius-sm: 8px;
-    --radius-md: 14px;
-    --radius-lg: 20px;
-    --shadow-xs: 0 1px 2px rgba(15, 23, 36, 0.04);
-    --shadow-sm: 0 6px 18px rgba(2, 6, 23, 0.06);
+    /** Theme surface colors */
+    --clr-surface-a0: #121212;
+    --clr-surface-a10: #282828;
+    --clr-surface-a20: #3f3f3f;
+    --clr-surface-a30: #575757;
+    --clr-surface-a40: #717171;
+    --clr-surface-a50: #8b8b8b;
+    --clr-surface-a60: #a7a7a7;
+    --clr-surface-a70: #c4c4c4;
 
-    --control-height: 44px;
-    --max-width: 1200px;
+    /** Theme tonal surface colors */
+    --clr-surface-tonal-a0: #192019;
+    --clr-surface-tonal-a10: #2e352e;
+    --clr-surface-tonal-a20: #454b44;
+    --clr-surface-tonal-a30: #5c625c;
+    --clr-surface-tonal-a40: #757a75;
+    --clr-surface-tonal-a50: #8f938f;
+    --clr-surface-tonal-a60: #aaadaa;
+    --clr-surface-tonal-a70: #c6c8c6;
+
+    /** Success colors */
+    --clr-success-a0: #22946e;
+    --clr-success-a10: #47d5a6;
+    --clr-success-a20: #9ae8ce;
+
+    /** Warning colors */
+    --clr-warning-a0: #a87a2a;
+    --clr-warning-a10: #d7ac61;
+    --clr-warning-a20: #ecd7b2;
+
+    /** Danger colors */
+    --clr-danger-a0: #9c2121;
+    --clr-danger-a10: #d94a4a;
+    --clr-danger-a20: #eb9e9e;
+
+    /** Info colors */
+    --clr-info-a0: #21498a;
+    --clr-info-a10: #4077d1;
+    --clr-info-a20: #92b2e5;
+
+    /** Examples */
+    .bg-primary {
+        color: var(--clr-primary-a50);
+        background-color: var(--clr-surface-a0);
+    }
 }
 
-/* Dark theme overrides */
-:root[data-theme="dark"],
-[data-theme="dark"] {
-    --bg: #0b0f14;
-    /* dunkles Nachtblau */
-    --surface: #0f1720;
-    /* Panel */
-    --muted: #94a3b8;
-    /* helleres Grau-Blau */
-    --text: #e6eef9;
-    /* sehr helles Blauweiß */
-    --border: rgba(255, 255, 255, 0.06);
-
-    /* Dunklere Akzente: leicht gedämpft, trotzdem erkennbar */
-    --accent-blue: #1e90ff;
-    --accent-sky: #4fc3ff;
-    --accent-teal: #33c9b6;
-
-    --shadow-xs: 0 1px 2px rgba(2, 6, 23, 0.6);
-    --shadow-sm: 0 10px 30px rgba(2, 6, 23, 0.65);
+* {
+    box-sizing: border-box;
 }
 
-/* ----- Basiselemente ----- */
 html,
 body {
-    height: 100%;
     margin: 0;
-    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    background: linear-gradient(180deg, var(--bg), color-mix(in srgb, var(--bg) 96%, transparent));
-    color: var(--text);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
 }
 
-.container {
-    max-width: var(--max-width);
-    margin: 24px auto;
-    padding: 20px;
-}
-
-/* Karten / Panels */
-.card {
-    background: var(--surface);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-sm);
-    border: 1px solid var(--border);
-    padding: 14px;
-}
-
-.header {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.app-title {
-    font-weight: 700;
-    font-size: 1.75rem;
-    line-height: 0.5;
-    letter-spacing: -0.02em;
-}
-
-/* Buttons */
-button {
-    height: var(--control-height);
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 0 14px;
-    border-radius: 12px;
+button.nav-button {
     border: none;
     cursor: pointer;
-    font-weight: 600;
-    font-size: 0.95rem;
-    transition: transform .08s ease, box-shadow .12s ease;
+    font: inherit;
+    color: inherit;
+    background: none;
+    padding: 0;
 }
 
-button:active {
-    transform: translateY(1px);
+button.nav-button:hover {
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: var(--clr-surface-a30);
+    transition: 0.3s;
 }
 
-button:focus {
-    outline: 3px solid color-mix(in srgb, var(--accent-blue) 30%, transparent);
-    outline-offset: 2px;
+button.nav-button span {
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
 }
 
-/* Primärer Akzentbutton */
-.btn-primary {
-    background: linear-gradient(90deg, var(--accent-blue), var(--accent-sky));
-    color: white;
-    box-shadow: 0 6px 18px color-mix(in srgb, var(--accent-blue) 18%, black);
+button.nav-button span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    right: -10px;
+    transition: 0.3s;
 }
 
-/* Sekundär / Ghost */
-.btn-ghost {
-    background: transparent;
-    color: var(--text);
-    border: 1px solid var(--border);
+button.nav-button:hover span {
+    padding-right: 15px;
 }
 
-/* Icon-Buttons (rund) */
-.icon-btn {
-    width: 40px;
-    height: 40px;
-    display: inline-grid;
-    place-items: center;
-    border-radius: 10px;
-    background: transparent;
-    border: 1px solid var(--border);
+button.nav-button:hover span:after {
+    opacity: 1;
+    right: 0;
 }
-
-/* Suchleiste und Controls */
-.search {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--surface);
-    border-radius: 12px;
-    padding: 6px 10px;
-    border: 1px solid var(--border);
-}
-
-.search input {
-    border: 0;
-    outline: 0;
-    background: transparent;
-    font-size: 0.95rem;
-    color: var(--text);
-    width: 240px;
-}
-
-/* Datei-Liste / Tabelle */
-.files {
-    margin-top: 12px;
-    border-radius: 12px;
-    overflow: hidden;
-    border: 1px solid var(--border);
-}
-
-.files-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.95rem;
-}
-
-.files-table thead {
-    background: color-mix(in srgb, var(--surface) 96%, black);
-}
-
-.files-table th,
-.files-table td {
-    padding: 12px 14px;
-    text-align: left;
-    border-bottom: 1px dashed var(--border);
-}
-
-.files-table tr:hover {
-    background: color-mix(in srgb, var(--accent-sky) 6%, transparent);
-}
-
-.file-name {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.file-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 8px;
-    display: grid;
-    place-items: center;
-    flex: 0 0 36px;
-    background: linear-gradient(180deg, color-mix(in srgb, var(--accent-sky) 30%, transparent), transparent);
-    border: 1px solid var(--border);
-}
-
-/* Fortschrittsbalken für Uploads/Downloads */
-.progress {
-    height: 10px;
-    background: color-mix(in srgb, var(--border) 35%, transparent);
-    border-radius: 999px;
-    overflow: hidden;
-}
-
-.progress-inner {
-    height: 100%;
-    width: 0%;
-    border-radius: 999px;
-    transition: width 400ms cubic-bezier(.2, .8, .2, 1);
-    background: linear-gradient(90deg, var(--accent-teal), var(--accent-blue));
-}
-
-/* Badge */
-.badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 10px;
-    border-radius: 999px;
-    font-weight: 600;
-    font-size: 0.8rem;
-    background: color-mix(in srgb, var(--accent-sky) 12%, transparent);
-    color: var(--text);
-    border: 1px solid var(--border);
-}
-
-/* Modals */
-.modal-backdrop {
-    position: fixed;
-    inset: 0;
-    display: grid;
-    place-items: center;
-    background: rgba(2, 6, 23, 0.5);
-    z-index: 60;
-}
-
-.modal {
-    width: min(720px, calc(100% - 48px));
-    background: var(--surface);
-    border-radius: var(--radius-lg);
-    padding: 18px;
-    box-shadow: var(--shadow-sm);
-    border: 1px solid var(--border);
-}
-
-/* Kleine Utilities */
-.row {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-}
-
-.col {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.text-muted {
-    color: var(--muted);
-    font-size: 0.9rem;
-}
-
-/* Responsiv */
-@media (max-width:720px) {
-    .container {
-        padding: 12px;
-    }
-
-    .search input {
-        width: 120px;
-    }
-
-    .app-title {
-        font-size: 1rem;
-    }
-}
-
-/* Fokus auf Zugänglichkeit: hoher Kontrast für aktive Elemente */
-:focus {
-    outline: none;
-}
-
-.btn-primary:focus,
-.icon-btn:focus {
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent-blue) 18%, transparent);
-}
-
-/* Helfer: Theme toggler falls prefers-color-scheme vorhanden */
-@media (prefers-color-scheme: dark) {
-    :root:not([data-theme]) {
-        --bg: var(--bg);
-    }
-}
-
-/* Beispiel: leichte Glas-Effekt-Variante für Header-Toolbar */
-.toolbar {
-    background: color-mix(in srgb, var(--surface) 80%, transparent);
-    backdrop-filter: blur(6px) saturate(110%);
-    border-radius: 14px;
-    padding: 8px;
-    border: 1px solid var(--border);
-}
-
-/* Animationen (sparsam) */
-.fade-in {
-    animation: fadeIn .22s ease both;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(6px);
-    }
-
-    to {
-        opacity: 1;
-        transform: none;
-    }
-}
-
-:root {
-    --surface-50: #F7F9FB;
-    --surface-100: #F1F4F7;
-    --surface-200: #E3E8EF;
-    --surface-300: #D4D9E1;
-    --surface-400: #C3CBD5;
-}
-
-
-:root[data-theme="dark"],
-[data-theme="dark"] {
-    --surface-900: #0B0F14;
-    --surface-800: #0F1720;
-    --surface-700: #1A2631;
-    --surface-600: #24313D;
-    --surface-500: #304150;
-}
-
-/* END */
