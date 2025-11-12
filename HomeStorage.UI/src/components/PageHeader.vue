@@ -16,7 +16,7 @@ defineProps<{
 <style scoped>
 
 .page-header {
-    padding: 1.25rem 2rem 0.75rem;
+    padding: 1.15rem 2rem 0.75rem;
     border-bottom: 1px solid var(--clr-surface-a20);
     background-color: var(--clr-surface-a10);
     color: var(--clr-light-a0);

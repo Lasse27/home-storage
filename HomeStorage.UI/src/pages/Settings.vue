@@ -5,7 +5,7 @@ import { Home, Folder, Settings, Info, CloudDownload } from 'lucide-vue-next'
 
 <template>
     <div class="home-page">
-        <PageHeader title="Dateien" :icon="Folder" />
+        <PageHeader title="Einstellungen" :icon="Settings" />
     </div>
 </template>
 
