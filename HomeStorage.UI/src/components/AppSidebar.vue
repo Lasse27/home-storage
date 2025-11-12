@@ -1,33 +1,36 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { Home, Folder, Settings, Info, CloudDownload } from 'lucide-vue-next'
+import router from '@/router'
 
 const activeItem = ref('home')
 
 const navItems = [
-  { id: 'home', label: 'Dashboard', icon: Home },
-  { id: 'files', label: 'Dateien', icon: Folder },
-  { id: 'settings', label: 'Einstellungen', icon: Settings },
-  { id: 'about', label: 'Über', icon: Info },
+  { id: 'home', label: 'Dashboard', icon: Home, path: '/dashboard' },
+  { id: 'files', label: 'Dateien', icon: Folder, path: '/files' },
+  { id: 'settings', label: 'Einstellungen', icon: Settings, path: '/settings' },
+  { id: 'about', label: 'Über', icon: Info, path: '/about' },
 ]
 
-const setActive = (id: string) => {
+const handleNavigationButton = (id: string) => {
   activeItem.value = id
+  router.push(navItems.find(item => item.id === id)?.path || '/')
 }
 </script>
 
 <template>
   <aside class="sidebar">
     <header>
-      <component :is="CloudDownload"/>
+      <component :is="CloudDownload" />
       <span> HomeStorage </span>
     </header>
 
     <nav class="sidebar-nav">
-        <button v-for="item in navItems" :key="item.id" class="sidebar-nav-button nav-button" :class="{ 'active': activeItem === item.id }" @click="setActive(item.id)">
-          <component :is="item.icon"/>
-          <span>{{ item.label }}</span>
-        </button>
+      <button v-for="item in navItems" :key="item.id" class="sidebar-nav-button nav-button"
+        :class="{ 'active': activeItem === item.id }" @click="handleNavigationButton(item.id)">
+        <component :is="item.icon" />
+        <span>{{ item.label }}</span>
+      </button>
     </nav>
     <footer class="sidebar-footer">
       <small>100 GB Free Storage</small>

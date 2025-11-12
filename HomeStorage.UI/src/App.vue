@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import AppSidebar from './components/AppSidebar.vue';
-import HomePage from './pages/HomePage.vue';
+import HomePage from './pages/DashBoard.vue';
 
 </script>
 
 <template>
   <div class="app">
     <AppSidebar style="grid-area: sidebar; z-index: 99;" />
-    <HomePage style="grid-area: main; z-index: 99;" />
-    <AppFooter style="grid-area: footer; z-index: 100;" />
+    <RouterView/>
   </div>
 </template>
 

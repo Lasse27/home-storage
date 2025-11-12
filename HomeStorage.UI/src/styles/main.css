@@ -85,6 +85,7 @@ button.nav-button {
     color: inherit;
     background: none;
     padding: 0;
+    transition: 0.3s;
 }
 
 button.nav-button:hover {
@@ -92,6 +93,7 @@ button.nav-button:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     background-color: var(--clr-surface-a30);
     transition: 0.3s;
+    transform: translateY(-5px);
 }
 
 button.nav-button span {
