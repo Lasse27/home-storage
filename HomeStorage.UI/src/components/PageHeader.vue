@@ -16,12 +16,11 @@ defineProps<{
 <style scoped>
 
 .page-header {
-    padding: 1.15rem 2rem 0.75rem;
+    padding: 0.25rem 1rem;
     border-bottom: 1px solid var(--clr-surface-a20);
     background-color: var(--clr-surface-a10);
     color: var(--clr-light-a0);
     box-sizing: border-box;
-    border-bottom: 4px solid var(--clr-light-a0);
     
     /* Display */
     gap: 1rem;
@@ -31,8 +30,8 @@ defineProps<{
 }
 
 .page-header h1 {
-    font-size: 1.75rem;
-    font-weight: 600;
+    font-size: 1.5rem;
+    font-weight: 500;
 }
 
 .page-header svg {

@@ -21,5 +21,6 @@ import HomePage from './pages/DashBoard.vue';
   height: 100vh;
   width: 100vw;
   background-color: var(--clr-surface-a0);
+  color: var(--clr-light-a0);
 }
 </style>
