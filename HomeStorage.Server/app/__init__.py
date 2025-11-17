@@ -40,8 +40,13 @@ def create_app():
     @app.route("/", defaults={"path": ""})
     @app.route("/<path:path>")
     def serve_vue(path):
-        if path != "" and os.path.exists(os.path.join(app.static_folder, path)):
-            return send_from_directory(app.static_folder, path)
+        if path != "":
+            # Normalize the combined path and ensure it's inside the static folder
+            requested_path = os.path.normpath(os.path.join(app.static_folder, path))
+            static_folder_abs = os.path.abspath(app.static_folder)
+            if requested_path.startswith(static_folder_abs) and os.path.exists(requested_path):
+                # Only serve the file if within static folder
+                return send_from_directory(app.static_folder, path)
         return send_from_directory(app.static_folder, "index.html")
     
     from app.routes.file_routes import file_bp
