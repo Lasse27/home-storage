@@ -16,7 +16,7 @@ from app.services.exceptions import ServiceException
 from app.routes.exceptions import InvalidContentException, InvalidContentTypeException, RouteException
 
 
-file_bp = Blueprint("file_bp", __name__, url_prefix="/files")
+file_bp: Blueprint = Blueprint("file_bp", __name__, url_prefix="/api/files")
 
 
 @file_bp.route("/", methods=["GET"])
