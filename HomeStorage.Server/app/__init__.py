@@ -1,4 +1,5 @@
 from logging import Logger
+import logging
 import os
 from pathlib import Path
 from dotenv import load_dotenv
@@ -20,7 +21,7 @@ def create_app(dev: bool):
     app = Flask(__name__)
 
     LOGGER = app.logger
-    LOGGER.setLevel(0)
+    LOGGER.setLevel(logging.DEBUG)
     
     # Create upload folder if it doesn't exist
     if not Path.exists(UPLOAD_FOLDER):

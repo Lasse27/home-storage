@@ -11,6 +11,8 @@ from logging import Logger
 import traceback
 from flask import Blueprint, current_app, jsonify
 from app.services.exceptions import ServiceException
+from app.services.system_service import SystemService
+from app.dtos.system_response import *
 
 system_bp: Blueprint = Blueprint("system_bp", __name__, url_prefix="/api/system")
 
@@ -18,8 +20,7 @@ system_bp: Blueprint = Blueprint("system_bp", __name__, url_prefix="/api/system"
 @system_bp.get("/")
 def system_full():
     try:
-        pass
-
+        return ""
     except ServiceException as service_e:
         return jsonify({"error": service_e.message, "meta": service_e.meta}), service_e.status
 
@@ -31,7 +32,9 @@ def system_full():
 @system_bp.get("/cpu")
 def system_cpu():
     try:
-        pass
+        service: SystemService = SystemService()
+        info: SystemCpuResponse = service.get_cpu_info()
+        return jsonify(info.model_dump()), 200
 
     except ServiceException as service_e:
         return jsonify({"error": service_e.message, "meta": service_e.meta}), service_e.status
@@ -44,7 +47,7 @@ def system_cpu():
 @system_bp.get("/disk")
 def system_disk():
     try:
-        pass
+        return ""
 
     except ServiceException as service_e:
         return jsonify({"error": service_e.message, "meta": service_e.meta}), service_e.status
@@ -57,7 +60,9 @@ def system_disk():
 @system_bp.get("/memory")
 def system_memory():
     try:
-        pass
+        service: SystemService = SystemService()
+        info: SystemMemoryResponse = service.get_memory_info()
+        return jsonify(info.model_dump()), 200
 
     except ServiceException as service_e:
         return jsonify({"error": service_e.message, "meta": service_e.meta}), service_e.status
@@ -70,7 +75,7 @@ def system_memory():
 @system_bp.get("/temp")
 def system_temp():
     try:
-        pass
+        return ""
 
     except ServiceException as service_e:
         return jsonify({"error": service_e.message, "meta": service_e.meta}), service_e.status
