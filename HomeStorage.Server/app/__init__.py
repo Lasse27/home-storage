@@ -2,7 +2,7 @@ from logging import Logger
 import os
 from pathlib import Path
 from dotenv import load_dotenv
-from flask import Flask, g, logging
+from flask import Flask, g, send_from_directory
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -20,7 +20,7 @@ def create_app():
     app = Flask(__name__)
 
     LOGGER = app.logger
-    LOGGER.setLevel(logging.INFO)
+    LOGGER.setLevel(0)
     # Create upload folder if it doesn't exist
     if not Path.exists(UPLOAD_FOLDER):
         os.makedirs(UPLOAD_FOLDER)
@@ -37,6 +37,13 @@ def create_app():
     SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
     # URL-Routen registrieren
+    @app.route("/", defaults={"path": ""})
+    @app.route("/<path:path>")
+    def serve_vue(path):
+        if path != "" and os.path.exists(os.path.join(app.static_folder, path)):
+            return send_from_directory(app.static_folder, path)
+        return send_from_directory(app.static_folder, "index.html")
+    
     from app.routes.file_routes import file_bp
     app.register_blueprint(file_bp)
 

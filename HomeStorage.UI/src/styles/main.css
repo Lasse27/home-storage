@@ -1,0 +1,120 @@
+:root {
+    /** Colors from: https://colorffy.com/ */
+
+    /** Base colors */
+    --clr-dark-a0: #000000;
+    --clr-light-a0: #ffffff;
+
+    /** Theme primary colors */
+    --clr-primary-a0: #4caf50;
+    --clr-primary-a10: #63b863;
+    --clr-primary-a20: #79c176;
+    --clr-primary-a30: #8dca89;
+    --clr-primary-a40: #a0d39c;
+    --clr-primary-a50: #b4dcb0;
+    --clr-primary-a60: #c7e5c3;
+    --clr-primary-a70: #d9eed7;
+    --clr-primary-a80: #ecf6eb;
+    --clr-primary-a90: #ffffff;
+
+    /** Theme surface colors */
+    --clr-surface-a0: #121212;
+    --clr-surface-a10: #282828;
+    --clr-surface-a20: #3f3f3f;
+    --clr-surface-a30: #575757;
+    --clr-surface-a40: #717171;
+    --clr-surface-a50: #8b8b8b;
+    --clr-surface-a60: #a7a7a7;
+    --clr-surface-a70: #c4c4c4;
+
+    /** Theme tonal surface colors */
+    --clr-surface-tonal-a0: #192019;
+    --clr-surface-tonal-a10: #2e352e;
+    --clr-surface-tonal-a20: #454b44;
+    --clr-surface-tonal-a30: #5c625c;
+    --clr-surface-tonal-a40: #757a75;
+    --clr-surface-tonal-a50: #8f938f;
+    --clr-surface-tonal-a60: #aaadaa;
+    --clr-surface-tonal-a70: #c6c8c6;
+
+    /** Success colors */
+    --clr-success-a0: #22946e;
+    --clr-success-a10: #47d5a6;
+    --clr-success-a20: #9ae8ce;
+
+    /** Warning colors */
+    --clr-warning-a0: #a87a2a;
+    --clr-warning-a10: #d7ac61;
+    --clr-warning-a20: #ecd7b2;
+
+    /** Danger colors */
+    --clr-danger-a0: #9c2121;
+    --clr-danger-a10: #d94a4a;
+    --clr-danger-a20: #eb9e9e;
+
+    /** Info colors */
+    --clr-info-a0: #21498a;
+    --clr-info-a10: #4077d1;
+    --clr-info-a20: #92b2e5;
+
+    /** Examples */
+    .bg-primary {
+        color: var(--clr-primary-a50);
+        background-color: var(--clr-surface-a0);
+    }
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+}
+
+button.nav-button {
+    border: none;
+    cursor: pointer;
+    font: inherit;
+    color: inherit;
+    background: none;
+    padding: 0;
+    transition: 0.3s;
+}
+
+button.nav-button:hover {
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: var(--clr-surface-a30);
+    transition: 0.3s;
+    transform: translateY(-5px);
+}
+
+button.nav-button span {
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+
+button.nav-button span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    right: -10px;
+    transition: 0.3s;
+}
+
+button.nav-button:hover span {
+    padding-right: 15px;
+}
+
+button.nav-button:hover span:after {
+    opacity: 1;
+    right: 0;
+}
