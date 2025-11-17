@@ -1,5 +1,5 @@
 {
-  "dependencies": {
-    "lucide-vue-next": "^0.553.0"
+  "devDependencies": {
+    "lucide-vue-next": "^0.554.0"
   }
 }
