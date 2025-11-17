@@ -1,5 +1,5 @@
 ## Stage 1: Vue Build
-FROM node:22 AS vue-build
+FROM node:20-slim AS vue-build
 WORKDIR /app
 COPY HomeStorage.UI/package*.json ./
 RUN npm install
