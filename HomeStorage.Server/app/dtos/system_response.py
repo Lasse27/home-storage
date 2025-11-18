@@ -124,3 +124,46 @@ class SystemMemoryResponse(BaseModel):
     virtual: MemoryVirtualResponse
     # info for the swap memory
     swap: MemorySwapResponse
+
+
+class DiskUsageResponse(BaseModel):
+    # referenced device
+    device: str = ""
+    # total space on the specified disk
+    total: int = 0
+    # used space on the specified disk
+    used: int = 0
+    # free space on the specified disk
+    free: int = 0
+    # free space on the specified disk as percentage
+    percent: int = 0
+
+
+class DiskIoCountersResponse(BaseModel):
+    # referenced device
+    device: str = ""
+    # number of reads
+    read_count: int = 0
+    # number of writes
+    write_count: int = 0
+    # number of bytes read
+    read_bytes: int = 0
+    # number of bytes written
+    write_bytes: int = 0
+    # time spent reading from disk (in milliseconds)
+    read_time: int = 0
+    # time spent writing to disk (in milliseconds)
+    write_time: int = 0
+    #  time spent doing actual I/Os
+    busy_time: int = 0
+    # number of merged reads
+    read_merged_count: int = 0
+    # number of merged writes
+    write_merged_count: int = 0
+
+
+class SystemDiskResponse(BaseModel):
+    # usage info for all disk partitions
+    usage: list[DiskUsageResponse]
+    # io counter info for all disk partitions
+    io_counters: list[DiskIoCountersResponse]

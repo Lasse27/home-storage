@@ -5,89 +5,56 @@ from app.dtos.system_response import *
 class _CpuService:
 
     def get_cpu_times(self) -> list[CpuTimesResponse]:
-        # Helper function
-        def _map_cpu_time(item) -> CpuTimesResponse:
-            mapped_item = CpuTimesResponse()
-            try:
-                mapped_item.user = item[0]
-                mapped_item.nice = item[1]
-                mapped_item.system = item[2]
-                mapped_item.idle = item[3]
-                mapped_item.iowait = item[4]
-                mapped_item.irq = item[5]
-                mapped_item.softirq = item[6]
-                mapped_item.steal = item[7]
-                mapped_item.guest = item[8]
-                mapped_item.guest_nice = item[8]
-            except:
-                pass
-            finally:
-                return mapped_item
-
-        # Main function
         util_call: list = psutil.cpu_times(True)
         out_list: list[CpuTimesResponse] = []
         for item in util_call:
-            mapped_item: CpuTimesResponse = _map_cpu_time(item=item)
+            mapped_item: CpuTimesResponse = CpuTimesResponse(
+                user=float(getattr(item, "user", 0)),
+                nice=float(getattr(item, "nice", 0)),
+                system=float(getattr(item, "system", 0)),
+                idle=float(getattr(item, "idle", 0)),
+                iowait=float(getattr(item, "iowait", 0)),
+                irq=float(getattr(item, "irq", 0)),
+                softirq=float(getattr(item, "softirq", 0)),
+                steal=float(getattr(item, "steal", 0)),
+                guest=float(getattr(item, "guest", 0)),
+                guest_nice=float(getattr(item, "guest_nice", 0)),
+            )
             out_list.append(mapped_item)
         return out_list
 
-#
-
     def get_cpu_freqs(self) -> list[CpuFreqResponse]:
-        # Helper function
-        def _map_cpu_freq(item) -> CpuFreqResponse:
-            mapped_item = CpuFreqResponse()
-            try:
-                mapped_item.current = item[0]
-                mapped_item.min = item[1]
-                mapped_item.max = item[2]
-            except:
-                pass
-            finally:
-                return mapped_item
-
-        # Main function
         util_call = psutil.cpu_freq(True)
         out_list: list[CpuFreqResponse] = []
         for item in util_call:
-            mapped_item: CpuFreqResponse = _map_cpu_freq(item=item)
+            mapped_item: CpuFreqResponse = CpuFreqResponse(
+                current=float(getattr(item, "current", 0)),
+                min=float(getattr(item, "min", 0)),
+                max=float(getattr(item, "max", 0)),
+            )
             out_list.append(mapped_item)
         return out_list
 
-#
-
     def get_cpu_stats(self) -> CpuStatsResponse:
         util_call = psutil.cpu_stats()
-        mapped_item = CpuStatsResponse()
-        try:
-            mapped_item.ctx_switches = util_call[0]
-            mapped_item.interrups = util_call[1]
-            mapped_item.soft_interrups = util_call[2]
-            mapped_item.syscalls = util_call[3]
-        except:
-            pass
-        finally:
-            return mapped_item
-
-#
-
-    def get_cpu_load(self) -> CpuLoadResponse:
-        x1, x2, x3 = [
-            x / psutil.cpu_count() * 100.0 for x in psutil.getloadavg()]
-        return CpuLoadResponse(
-            min_1_load=x1,
-            min_5_load=x2,
-            min_15_load=x3
+        return CpuStatsResponse(
+            ctx_switches=int(getattr(util_call, "total", 0)),
+            interrups=int(getattr(util_call, "interrups", 0)),
+            soft_interrups=int(getattr(util_call, "soft_interrups", 0)),
+            syscalls=int(getattr(util_call, "syscalls", 0)),
         )
 
-#
+    def get_cpu_load(self) -> CpuLoadResponse:
+        x, y, z = [x / psutil.cpu_count() * 100.0 for x in psutil.getloadavg()]
+        return CpuLoadResponse(
+            min_1_load=x,
+            min_5_load=y,
+            min_15_load=z
+        )
 
     def get_cpu_count(self) -> int:
         util_call: int = psutil.cpu_count()
         return util_call
-
-#
 
     def get_cpu_cpu_percs(self) -> list[float]:
         util_call = psutil.cpu_percent(0.1, True)
@@ -98,79 +65,75 @@ class _MemoryService:
 
     def get_virtual_memory(self):
         util_call = psutil.virtual_memory()
-        mapped_item = MemoryVirtualResponse()
-        try:
-            mapped_item.total = util_call[0]
-            mapped_item.available = util_call[1]
-            mapped_item.percent = util_call[2]
-            mapped_item.used = util_call[3]
-            mapped_item.free = util_call[4]
-            mapped_item.active = util_call[5]
-            mapped_item.inactive = util_call[6]
-            mapped_item.buffers = util_call[7]
-            mapped_item.cached = util_call[8]
-            mapped_item.shared = util_call[9]
-            mapped_item.slab = util_call[10]
-            mapped_item.wired = util_call[11]
-        except:
-            pass
-        finally:
-            return mapped_item
-
-#
+        return MemoryVirtualResponse(
+            total=int(getattr(util_call, "total", 0)),
+            available=int(getattr(util_call, "available", 0)),
+            percent=int(getattr(util_call, "percent", 0)),
+            used=int(getattr(util_call, "used", 0)),
+            free=int(getattr(util_call, "free", 0)),
+            active=int(getattr(util_call, "active", 0)),
+            inactive=int(getattr(util_call, "inactive", 0)),
+            buffers=int(getattr(util_call, "buffers", 0)),
+            cached=int(getattr(util_call, "cached", 0)),
+            shared=int(getattr(util_call, "shared", 0)),
+            slab=int(getattr(util_call, "slab", 0)),
+            wired=int(getattr(util_call, "wired", 0))
+        )
 
     def get_swap_memory(self):
         util_call = psutil.swap_memory()
-        mapped_item = MemorySwapResponse()
-        try:
-            mapped_item.total = util_call[0]
-            mapped_item.used = util_call[1]
-            mapped_item.free = util_call[2]
-            mapped_item.percent = util_call[3]
-            mapped_item.sin = util_call[4]
-            mapped_item.sout = util_call[5]
-        except:
-            pass
-        finally:
-            return mapped_item
+        return MemorySwapResponse(
+            total=int(getattr(util_call, "total", 0)),
+            used=int(getattr(util_call, "used", 0)),
+            free=int(getattr(util_call, "free", 0)),
+            percent=int(getattr(util_call, "percent", 0)),
+            sin=int(getattr(util_call, "sin", 0)),
+            sout=int(getattr(util_call, "sout", 0)),
+        )
+
+
+class _DiskService:
+    def get_disk_usages() -> list[DiskUsageResponse]:
+        pass
+
+    def get_disk_iocounters() -> list[DiskIoCountersResponse]:
+        pass
 
 
 class SystemService:
 
     def __init__(self):
-        self.cpu_service = _CpuService()
-        self.memory_service = _MemoryService()
+        self._cpu_service = _CpuService()
+        self._memory_service = _MemoryService()
+        self._disk_service = _DiskService()
 
     def get_full_system_info(self):
         pass
 
     def get_cpu_info(self):
-        cpu_count: int = self.cpu_service.get_cpu_count()
-        cpu_stats: CpuStatsResponse = self.cpu_service.get_cpu_stats()
-        cpu_load: CpuLoadResponse = self.cpu_service.get_cpu_load()
-        cpu_percs: list[float] = self.cpu_service.get_cpu_cpu_percs()
-        cpu_freqs: list[CpuFreqResponse] = self.cpu_service.get_cpu_freqs()
-        cpu_times: list[CpuTimesResponse] = self.cpu_service.get_cpu_times()
-
+        cpu_count: int = self._cpu_service.get_cpu_count()
+        cpu_stats: CpuStatsResponse = self._cpu_service.get_cpu_stats()
+        cpu_load: CpuLoadResponse = self._cpu_service.get_cpu_load()
+        cpu_percs: list[float] = self._cpu_service.get_cpu_cpu_percs()
+        cpu_freqs: list[CpuFreqResponse] = self._cpu_service.get_cpu_freqs()
+        cpu_times: list[CpuTimesResponse] = self._cpu_service.get_cpu_times()
         return SystemCpuResponse(
             cpu_count=cpu_count,
             cpu_stats=cpu_stats,
             cpu_load=cpu_load,
             cpu_percs=cpu_percs,
             cpu_freqs=cpu_freqs,
-            cpu_times=cpu_times
-        )
+            cpu_times=cpu_times)
+
+    def get_memory_info(self):
+        virtual = self._memory_service.get_virtual_memory()
+        swap = self._memory_service.get_swap_memory()
+        return SystemMemoryResponse(
+            virtual=virtual,
+            swap=swap)
 
     def get_disk_info(self):
         pass
-
-    def get_memory_info(self):
-        virtual = self.memory_service.get_virtual_memory()
-        swap = self.memory_service.get_swap_memory()
-        return SystemMemoryResponse(
-            virtual=virtual,
-            swap=swap
-        )
 
     def get_temperature_info(self):
         pass
