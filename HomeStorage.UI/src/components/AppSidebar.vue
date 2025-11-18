@@ -8,8 +8,8 @@ const activeItem = ref('home')
 const navItems = [
   { id: 'home', label: 'Dashboard', icon: Home, path: '/dashboard' },
   { id: 'files', label: 'Dateien', icon: Folder, path: '/files' },
+  { id: 'system', label: 'System', icon: Info, path: '/system' },
   { id: 'settings', label: 'Einstellungen', icon: Settings, path: '/settings' },
-  { id: 'about', label: 'Über', icon: Info, path: '/about' },
 ]
 
 const handleNavigationButton = (id: string) => {
