@@ -39,8 +39,8 @@ class _CpuService:
         util_call = psutil.cpu_stats()
         return CpuStatsResponse(
             ctx_switches=int(getattr(util_call, "total", 0)),
-            interrups=int(getattr(util_call, "interrups", 0)),
-            soft_interrups=int(getattr(util_call, "soft_interrups", 0)),
+            interrupts=int(getattr(util_call, "interrupts", 0)),
+            soft_interrupts=int(getattr(util_call, "soft_interrupts", 0)),
             syscalls=int(getattr(util_call, "syscalls", 0)),
         )
 
@@ -146,7 +146,11 @@ class SystemService:
         self._disk_service = _DiskService()
 
     def get_full_system_info(self):
-        pass
+        return SystemResponse(
+            cpu=self.get_cpu_info(),
+            memory=self.get_memory_info(),
+            disk=self.get_disk_info()
+        )
 
     def get_cpu_info(self):
         return SystemCpuResponse(
@@ -170,6 +174,3 @@ class SystemService:
             usage=self._disk_service.get_disk_usages(),
             io_counters=self._disk_service.get_disk_iocounters()
         )
-
-    def get_temperature_info(self):
-        pass

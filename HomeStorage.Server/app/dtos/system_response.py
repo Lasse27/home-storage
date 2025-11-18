@@ -2,181 +2,433 @@ from pydantic import BaseModel
 
 
 class CpuStatsResponse(BaseModel):
+    """ 
+    Detailed CPU statistics based on psutil. 
     """
-    Basis-Statistiken der CPU, wie sie von psutil geliefert werden.
+
+    ctx_switches: int = 0
     """
-    # Anzahl der Kontextwechsel
-    ctx_switches: int = 0.0
-    # Anzahl der Hardware-Interrupts (Tippfehler!)
-    interrups: int = 0.0
-    # Anzahl der Software-Interrupts (Tippfehler!)
-    soft_interrups: int = 0.0
-    # Anzahl der Systemaufrufe
-    syscalls: int = 0.0
+    Number of context switches performed by the system.
+    """
+
+    interrupts: int = 0
+    """
+    Number of hardware interrupts.
+    """
+
+    soft_interrupts: int = 0
+    """
+    Number of software interrupts.
+    """
+
+    syscalls: int = 0
+    """
+    Number of system calls invoked.
+    """
 
 
 class CpuTimesResponse(BaseModel):
+    """ 
+    Distribution of CPU time across various operating modes. 
     """
-    Zeitaufteilung der CPU in verschiedene Betriebsmodi.
-    """
-    # Zeit im User-Mode
+
     user: float = 0.0
-    # Zeit im User-Mode mit Low-Priority (nice)
+    """
+    Time spent in user mode.
+    """
+
     nice: float = 0.0
-    # Zeit im Kernel-Mode
+    """
+    Time spent in user mode with a lower (nice) priority.
+    """
+
     system: float = 0.0
-    # Leerlaufzeit
+    """
+    Time spent in kernel mode.
+    """
+
     idle: float = 0.0
-    # Warten auf I/O
+    """
+    Time during which the CPU was idle.
+    """
+
     iowait: float = 0.0
-    # Hardware-Interrupt-Verarbeitung
+    """
+    Time spent waiting for I/O operations to complete.
+    """
+
     irq: float = 0.0
-    # Software-Interrupt-Verarbeitung
+    """
+    Time spent handling hardware interrupts.
+    """
+
     softirq: float = 0.0
-    # Zeit, die der Hypervisor 'gestohlen' hat
+    """
+    Time spent handling software interrupts.
+    """
+
     steal: float = 0.0
-    # Zeit, die für virtuelle Maschinen genutzt wird
+    """
+    CPU time stolen by the hypervisor for other virtual machines.
+    """
+
     guest: float = 0.0
-    # Nice-Zeit für virtuelle Maschinen
+    """
+    Time spent executing guest virtual machines.
+    """
+
     guest_nice: float = 0.0
+    """
+    Nice time spent executing guest virtual machines.
+    """
 
 
 class CpuFreqResponse(BaseModel):
-    """Informationen zur aktuellen und möglichen CPU-Frequenz."""
-    # Aktuelle Taktfrequenz
+    """ 
+    CPU frequency information in MHz.
+    """
+
     current: float = 0.0
-    # Minimale mögliche Taktfrequenz
+    """
+    Current CPU frequency in MHz.
+    """
+
     min: float = 0.0
-    # Maximale mögliche Taktfrequenz
+    """
+    Minimum supported CPU frequency in MHz.
+    """
+
     max: float = 0.0
+    """
+    Maximum supported CPU frequency in MHz.
+    """
 
 
 class CpuLoadResponse(BaseModel):
-    """Durchschnittliche Systemlast über verschiedene Zeiträume."""
-    # Last der letzten 1 Minute
+    """ 
+    Average system load over different time intervals.
+    """
+
     min_1_load: float = 0.0
-    # Last der letzten 5 Minuten
+    """
+    Average system load over the last 1 minute.
+    """
+
     min_5_load: float = 0.0
-    # Last der letzten 15 Minuten
+    """
+    Average system load over the last 5 minutes.
+    """
+
     min_15_load: float = 0.0
+    """
+    Average system load over the last 15 minutes.
+    """
 
 
 class SystemCpuResponse(BaseModel):
-    """Gesamtübersicht über CPU-Daten des Systems."""
-    # Anzahl der logischen CPUs
-    cpu_count: int = 0.0
-    # Basis-Statistiken
-    cpu_stats: CpuStatsResponse
-    # Durchschnittslasten
-    cpu_load: CpuLoadResponse
-    # Prozentwerte
-    cpu_percs: list[float]
-    # Zeitstatistiken pro CPU
-    cpu_times: list[CpuTimesResponse]
-    # Frequenzinformationen pro CPU
-    cpu_freqs: list[CpuFreqResponse]
+    """ 
+    Aggregated CPU information of the system.
+    """
+
+    cpu_count: int = 0
+    """
+    Number of logical CPU cores.
+    """
+
+    cpu_stats: CpuStatsResponse = CpuStatsResponse()
+    """
+    Basic CPU statistics.
+    """
+
+    cpu_load: CpuLoadResponse = CpuLoadResponse()
+    """
+    Average system load.
+    """
+
+    cpu_percs: list[float] = []
+    """
+    CPU usage per core in percent.
+    """
+
+    cpu_times: list[CpuTimesResponse] = []
+    """
+    CPU time statistics for each individual core.
+    """
+
+    cpu_freqs: list[CpuFreqResponse] = []
+    """
+    CPU frequency information for each core.
+    """
 
 
 class MemoryVirtualResponse(BaseModel):
-    # total physical memory (exclusive swap).
+    """ 
+    Detailed information about the virtual memory (RAM).
+    """
+
     total: int = 0
-    # the memory that can be given instantly to processes without the system going into swap.
+    """
+    Total physical memory in bytes.
+    """
+
     available: int = 0
-    # the percentage usage calculated as (total - available) / total * 100.
+    """
+    Immediately available memory without using swap.
+    """
+
     percent: int = 0
-    # memory used, calculated differently depending on the platform and designed for informational purposes only.
+    """
+    Memory usage in percent.
+    """
+
     used: int = 0
-    # memory not being used at all (zeroed) that is readily available.
+    """
+    Used memory, calculated differently depending on the platform.
+    """
+
     free: int = 0
-    # memory currently in use or very recently used, and so it is in RAM.
+    """
+    Unused (zeroed) memory immediately available to the system.
+    """
+
     active: int = 0
-    # memory that is marked as not used.
+    """
+    Memory actively used by processes.
+    """
+
     inactive: int = 0
-    # cache for things like file system metadata.
+    """
+    Memory marked as inactive.
+    """
+
     buffers: int = 0
-    # cache for various things
+    """
+    Memory used for buffer caches, e.g., filesystem metadata.
+    """
+
     cached: int = 0
-    # memory that may be simultaneously accessed by multiple processes.
+    """
+    Cached memory segments.
+    """
+
     shared: int = 0
-    # in-kernel data structures cache.
+    """
+    Memory shared between processes.
+    """
+
     slab: int = 0
-    # memory that is marked to always stay in RAM. It is never moved to disk.
+    """
+    Memory used for in-kernel data structures.
+    """
+
     wired: int = 0
+    """
+    Memory locked in RAM and not pageable.
+    """
 
 
 class MemorySwapResponse(BaseModel):
-    # total swap memory in bytes
+    """ 
+    Information about swap memory usage.
+    """
+
     total: int = 0
-    # used swap memory in bytes
+    """
+    Total swap memory in bytes.
+    """
+
     used: int = 0
-    # free swap memory in bytes
+    """
+    Used swap memory in bytes.
+    """
+
     free: int = 0
-    # the percentage usage calculated as (total - available) / total * 100
+    """
+    Free swap memory in bytes.
+    """
+
     percent: int = 0
-    # the number of bytes the system has swapped in from disk (cumulative)
+    """
+    Swap usage in percent.
+    """
+
     sin: int = 0
-    # the number of bytes the system has swapped out from disk (cumulative)
+    """
+    Total bytes swapped in (cumulative).
+    """
+
     sout: int = 0
+    """
+    Total bytes swapped out (cumulative).
+    """
 
 
 class SystemMemoryResponse(BaseModel):
-    # info for the virtual memory
-    virtual: MemoryVirtualResponse
-    # info for the swap memory
-    swap: MemorySwapResponse
+    """ 
+    Complete memory status of the system.
+    """
+
+    virtual: MemoryVirtualResponse = MemoryVirtualResponse()
+    """
+    Virtual memory information.
+    """
+
+    swap: MemorySwapResponse = MemorySwapResponse()
+    """
+    Swap memory information.
+    """
 
 
 class DiskPartitionResponse(BaseModel):
-    # the device path (e.g. "/dev/hda1"). On Windows this is the drive letter (e.g. "C:\\").
+    """ 
+    Description of a single disk partition.
+    """
+
     device: str = ""
-    # the mount point path (e.g. "/"). On Windows this is the drive letter (e.g. "C:\\").
+    """
+    Device path of the partition (e.g., '/dev/sda1').
+    """
+
     mountpoint: str = ""
-    # the partition filesystem (e.g. "ext3" on UNIX or "NTFS" on Windows).
+    """
+    Mount point of the partition.
+    """
+
     fstype: str = ""
-    # a comma-separated string indicating different mount options for the drive/partition. Platform-dependent.
+    """
+    Filesystem type (e.g., ext4, NTFS).
+    """
+
     opts: str = ""
+    """
+    Mount options of the partition.
+    """
 
 
 class DiskUsageResponse(BaseModel):
-    # referenced device
+    """ 
+    Usage statistics of a disk or partition.
+    """
+
     device: str = ""
-    # total space on the specified disk
+    """
+    Name of the referenced partition.
+    """
+
     total: int = 0
-    # used space on the specified disk
+    """
+    Total storage capacity in bytes.
+    """
+
     used: int = 0
-    # free space on the specified disk
+    """
+    Used storage in bytes.
+    """
+
     free: int = 0
-    # free space on the specified disk as percentage
+    """
+    Free storage in bytes.
+    """
+
     percent: int = 0
+    """
+    Disk usage in percent.
+    """
 
 
 class DiskIoCountersResponse(BaseModel):
-    # referenced device
+    """ 
+    Mirrors psutil.disk_io_counters(perdisk=True).
+    """
+
     device: str = ""
-    # number of reads
+    """
+    Name of the referenced device.
+    """
+
     read_count: int = 0
-    # number of writes
+    """
+    Number of completed read operations.
+    """
+
     write_count: int = 0
-    # number of bytes read
+    """
+    Number of completed write operations.
+    """
+
     read_bytes: int = 0
-    # number of bytes written
+    """
+    Total bytes read.
+    """
+
     write_bytes: int = 0
-    # time spent reading from disk (in milliseconds)
+    """
+    Total bytes written.
+    """
+
     read_time: int = 0
-    # time spent writing to disk (in milliseconds)
+    """
+    Time spent on read operations (ms).
+    """
+
     write_time: int = 0
-    #  time spent doing actual I/Os
+    """
+    Time spent on write operations (ms).
+    """
+
     busy_time: int = 0
-    # number of merged reads
+    """
+    Time the device was busy (ms).
+    """
+
     read_merged_count: int = 0
-    # number of merged writes
+    """
+    Number of merged read operations.
+    """
+
     write_merged_count: int = 0
+    """
+    Number of merged write operations.
+    """
 
 
 class SystemDiskResponse(BaseModel):
-    # a list of all disk partitions
-    partitions: list[DiskPartitionResponse]
-    # usage info for all disk partitions
-    usage: list[DiskUsageResponse]
-    # io counter info for all disk partitions
-    io_counters: list[DiskIoCountersResponse]
+    """ 
+    Complete disk information of the system.
+    """
+
+    partitions: list[DiskPartitionResponse] = []
+    """
+    List of all detected disk partitions.
+    """
+
+    usage: list[DiskUsageResponse] = []
+    """
+    Disk space usage information for all partitions.
+    """
+
+    io_counters: list[DiskIoCountersResponse] = []
+    """
+    I/O statistics for all block devices.
+    """
+
+
+class SystemResponse(BaseModel):
+    """ 
+    Overall system metrics response.
+    """
+
+    cpu: SystemCpuResponse = SystemCpuResponse()
+    """
+    CPU status of the system.
+    """
+
+    memory: SystemMemoryResponse = SystemMemoryResponse()
+    """
+    Memory status of the system.
+    """
+
+    disk: SystemDiskResponse = SystemDiskResponse()
+    """
+    Disk status of the system.
+    """
