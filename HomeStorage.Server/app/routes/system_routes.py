@@ -14,7 +14,8 @@ from app.services.exceptions import ServiceException
 from app.services.system_service import SystemService
 from app.dtos.system_response import *
 
-system_bp: Blueprint = Blueprint("system_bp", __name__, url_prefix="/api/system")
+system_bp: Blueprint = Blueprint(
+    "system_bp", __name__, url_prefix="/api/system")
 
 
 @system_bp.get("/")
@@ -47,7 +48,9 @@ def system_cpu():
 @system_bp.get("/disk")
 def system_disk():
     try:
-        return ""
+        service: SystemService = SystemService()
+        info: SystemDiskResponse = service.get_disk_info()
+        return jsonify(info.model_dump()), 200
 
     except ServiceException as service_e:
         return jsonify({"error": service_e.message, "meta": service_e.meta}), service_e.status

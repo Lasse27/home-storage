@@ -56,7 +56,7 @@ class _CpuService:
         util_call: int = psutil.cpu_count()
         return util_call
 
-    def get_cpu_cpu_percs(self) -> list[float]:
+    def get_cpu_percs(self) -> list[float]:
         util_call = psutil.cpu_percent(0.1, True)
         return util_call
 
@@ -93,11 +93,49 @@ class _MemoryService:
 
 
 class _DiskService:
-    def get_disk_usages() -> list[DiskUsageResponse]:
-        pass
+    def get_disk_partitions(self) -> list[DiskPartitionResponse]:
+        partitions = psutil.disk_partitions()
+        out_list: list[DiskPartitionResponse] = []
+        for part in partitions:
+            out_list.append(DiskPartitionResponse(
+                device=str(getattr(part, "device", "")),
+                mountpoint=str(getattr(part, "mountpoint", "")),
+                fstype=str(getattr(part, "fstype", "")),
+                opts=str(getattr(part, "opts", "")),
+            ))
+        return out_list
 
-    def get_disk_iocounters() -> list[DiskIoCountersResponse]:
-        pass
+    def get_disk_usages(self) -> list[DiskUsageResponse]:
+        partitions = psutil.disk_partitions()
+        out_list: list[DiskUsageResponse] = []
+        for part in partitions:
+            usage = psutil.disk_usage(part.mountpoint)
+            out_list.append(DiskUsageResponse(
+                device=part.device,
+                total=int(getattr(usage, "total", 0)),
+                used=int(getattr(usage, "used", 0)),
+                free=int(getattr(usage, "free", 0)),
+                percent=int(getattr(usage, "percent", 0)),
+            ))
+        return out_list
+
+    def get_disk_iocounters(self) -> list[DiskIoCountersResponse]:
+        out_list: list[DiskIoCountersResponse] = []
+        counters = psutil.disk_io_counters(perdisk=True)
+        for k, v in counters.items():
+            out_list.append(DiskIoCountersResponse(
+                device=k,
+                read_count=int(getattr(v, "read_count", 0)),
+                write_count=int(getattr(v, "write_count", 0)),
+                read_bytes=int(getattr(v, "read_bytes", 0)),
+                write_bytes=int(getattr(v, "write_bytes", 0)),
+                read_time=int(getattr(v, "read_time", 0)),
+                write_time=int(getattr(v, "write_time", 0)),
+                busy_time=int(getattr(v, "busy_time", 0)),
+                read_merged_count=int(getattr(v, "read_merged_count", 0)),
+                writemerged_count=int(getattr(v, "writemerged_count", 0)),
+            ))
+        return out_list
 
 
 class SystemService:
@@ -111,29 +149,27 @@ class SystemService:
         pass
 
     def get_cpu_info(self):
-        cpu_count: int = self._cpu_service.get_cpu_count()
-        cpu_stats: CpuStatsResponse = self._cpu_service.get_cpu_stats()
-        cpu_load: CpuLoadResponse = self._cpu_service.get_cpu_load()
-        cpu_percs: list[float] = self._cpu_service.get_cpu_cpu_percs()
-        cpu_freqs: list[CpuFreqResponse] = self._cpu_service.get_cpu_freqs()
-        cpu_times: list[CpuTimesResponse] = self._cpu_service.get_cpu_times()
         return SystemCpuResponse(
-            cpu_count=cpu_count,
-            cpu_stats=cpu_stats,
-            cpu_load=cpu_load,
-            cpu_percs=cpu_percs,
-            cpu_freqs=cpu_freqs,
-            cpu_times=cpu_times)
+            cpu_count=self._cpu_service.get_cpu_count(),
+            cpu_stats=self._cpu_service.get_cpu_stats(),
+            cpu_load=self._cpu_service.get_cpu_load(),
+            cpu_percs=self._cpu_service.get_cpu_percs(),
+            cpu_freqs=self._cpu_service.get_cpu_freqs(),
+            cpu_times=self._cpu_service.get_cpu_times()
+        )
 
     def get_memory_info(self):
-        virtual = self._memory_service.get_virtual_memory()
-        swap = self._memory_service.get_swap_memory()
         return SystemMemoryResponse(
-            virtual=virtual,
-            swap=swap)
+            virtual=self._memory_service.get_virtual_memory(),
+            swap=self._memory_service.get_swap_memory()
+        )
 
     def get_disk_info(self):
-        pass
+        return SystemDiskResponse(
+            partitions=self._disk_service.get_disk_partitions(),
+            usage=self._disk_service.get_disk_usages(),
+            io_counters=self._disk_service.get_disk_iocounters()
+        )
 
     def get_temperature_info(self):
         pass

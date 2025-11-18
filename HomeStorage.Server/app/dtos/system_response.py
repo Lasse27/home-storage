@@ -126,6 +126,17 @@ class SystemMemoryResponse(BaseModel):
     swap: MemorySwapResponse
 
 
+class DiskPartitionResponse(BaseModel):
+    # the device path (e.g. "/dev/hda1"). On Windows this is the drive letter (e.g. "C:\\").
+    device: str = ""
+    # the mount point path (e.g. "/"). On Windows this is the drive letter (e.g. "C:\\").
+    mountpoint: str = ""
+    # the partition filesystem (e.g. "ext3" on UNIX or "NTFS" on Windows).
+    fstype: str = ""
+    # a comma-separated string indicating different mount options for the drive/partition. Platform-dependent.
+    opts: str = ""
+
+
 class DiskUsageResponse(BaseModel):
     # referenced device
     device: str = ""
@@ -163,6 +174,8 @@ class DiskIoCountersResponse(BaseModel):
 
 
 class SystemDiskResponse(BaseModel):
+    # a list of all disk partitions
+    partitions: list[DiskPartitionResponse]
     # usage info for all disk partitions
     usage: list[DiskUsageResponse]
     # io counter info for all disk partitions
