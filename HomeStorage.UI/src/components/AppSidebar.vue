@@ -59,11 +59,10 @@ const handleNavigationButton = (id: string) => {
   border-right: 4px solid var(--clr-primary-a0);
 }
 
-
 .sidebar header {
   /* Size */
   width: 100%;
-  padding: 2rem 1rem;
+  padding: 0.75rem 1rem;
   box-sizing: border-box;
 
   /* Display */
@@ -78,6 +77,10 @@ const handleNavigationButton = (id: string) => {
   margin: 0;
 }
 
+.sidebar header svg {
+  height: 50px;
+  width: 50px;
+}
 
 .sidebar .sidebar-nav {
   /* Size */
@@ -88,7 +91,6 @@ const handleNavigationButton = (id: string) => {
   flex-grow: 1;
   box-sizing: border-box;
 }
-
 
 .sidebar-nav-button {
   /* Size */
@@ -101,6 +103,7 @@ const handleNavigationButton = (id: string) => {
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
   gap: 1rem;
 
   /* Styling */
@@ -128,5 +131,42 @@ const handleNavigationButton = (id: string) => {
   font-size: 1rem;
   color: var(--clr-light-a0);
   border-top: 1px solid var(--clr-surface-a30);
+}
+
+@media (min-width: 300px) {
+  .sidebar header span {
+    display: none;
+  }
+
+  .sidebar-nav-button {
+    justify-content: center;
+  }
+
+  .sidebar-nav-button span {
+    display: none;
+  }
+}
+
+@media (min-width: 1300px) {
+  .sidebar header span {
+    display: flex;
+  }
+
+  .sidebar-nav-button {
+    justify-content: flex-start;
+  }
+
+  .sidebar-nav-button span {
+    display: flex;
+  }
+
+
+
+
+
+
+
+
+
 }
 </style>

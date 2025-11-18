@@ -7,20 +7,53 @@ import HomePage from './pages/DashBoard.vue';
 <template>
   <div class="app">
     <AppSidebar style="grid-area: sidebar; z-index: 99;" />
-    <RouterView/>
+    <RouterView />
   </div>
 </template>
 
 <style scoped>
-.app {
-  display: grid;
-  grid-template-rows: 1fr;
-  grid-template-columns: 17.5vw 1fr;
-  grid-template-areas:
-    "sidebar main";
-  height: 100vh;
-  width: 100vw;
-  background-color: var(--clr-surface-a0);
-  color: var(--clr-light-a0);
+@media (min-width: 0px) {
+  .app {
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 100px 1fr;
+    grid-template-areas:
+      "sidebar main";
+    height: 100vh;
+    width: 100vw;
+    background-color: var(--clr-surface-a0);
+    color: var(--clr-light-a0);
+    transition: 0.2;
+  }
+}
+
+@media (min-width: 400px) {
+  .app {
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 100px 1fr;
+    grid-template-areas:
+      "sidebar main";
+    height: 100vh;
+    width: 100vw;
+    background-color: var(--clr-surface-a0);
+    color: var(--clr-light-a0);
+    transition: 0.2;
+  }
+}
+
+@media (min-width: 1300px) {
+  .app {
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 300px 1fr;
+    grid-template-areas:
+      "sidebar main";
+    height: 100vh;
+    width: 100vw;
+    background-color: var(--clr-surface-a0);
+    color: var(--clr-light-a0);
+    transition: 0.2;
+  }
 }
 </style>
