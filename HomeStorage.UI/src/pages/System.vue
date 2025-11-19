@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import PageHeader from '@/components/PageHeader.vue';
+import CpuPanel from '@/components/system_overview/CpuPanel.vue';
 import { Info } from 'lucide-vue-next'
 
 </script>
@@ -8,36 +9,7 @@ import { Info } from 'lucide-vue-next'
     <div class="system-page">
         <PageHeader title="System" :icon="Info" style="grid-area: header;" />
         <div class="panel-container">
-            <div class="panel" style="grid-area: cpu;">
-                <h1> CPU </h1>
-                <div>
-                    <h2>System load</h2>
-                    <table class="sys-table">
-                        <thead>
-                            <tr>
-                                <th>Intervall</th>
-                                <th>Wert</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td> 1 Minute/n</td>
-                                <td>Wert</td>
-                            </tr>
-                            <tr>
-                                <td> 5 Minute/n</td>
-                                <td>Wert</td>
-                            </tr>
-                            <tr>
-                                <td> 15 Minute</td>
-                                <td>Wert</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-
-            </div>
+            <CpuPanel/>
 
             <div class="panel" style="grid-area: memory;">
                 <h1> Memory </h1>
@@ -115,41 +87,5 @@ import { Info } from 'lucide-vue-next'
 /* ------------------------- */
 /* HÜBSCHERE TABELLE */
 /* ------------------------- */
-.sys-table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: var(--clr-surface-a05);
-    border: 1px solid var(--clr-surface-a20);
-    overflow: hidden;
-    font-size: 0.9rem;
-}
 
-
-.sys-table thead {
-    background-color: var(--clr-surface-a20);
-    color: var(--clr-light-a0);
-}
-
-
-.sys-table th,
-.sys-table td {
-    padding: 0.5rem 0.75rem;
-    border-bottom: 1px solid var(--clr-surface-a15);
-}
-
-
-.sys-table tbody tr:nth-child(even) {
-    background-color: var(--clr-surface-a10);
-}
-
-
-.sys-table tbody tr:hover {
-    background-color: var(--clr-surface-a20);
-}
-
-
-.sys-table th {
-    text-align: left;
-    font-weight: bold;
-}
 </style>

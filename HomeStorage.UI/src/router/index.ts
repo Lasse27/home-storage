@@ -19,7 +19,7 @@ const router = createRouter({
   routes: app_routes,
 })
 
-const DEFAULT_TITLE = 'Some Default Title';
+const DEFAULT_TITLE = 'HomeStorage';
 router.afterEach((to, from) => {
   // Use next tick to handle router history correctly
   // see: https://github.com/vuejs/vue-router/issues/914#issuecomment-384477609

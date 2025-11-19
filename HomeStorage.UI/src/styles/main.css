@@ -120,3 +120,40 @@ button.nav-button:hover span:after {
     opacity: 1;
     right: 0;
 }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--clr-surface-a10);
+    border: 1px solid var(--clr-surface-a20);
+    font-size: small;
+}
+
+
+table thead {
+    background-color: var(--clr-primary-a10);
+    color: var(--clr-light-a0);
+    font-size: medium;
+}
+
+
+table th,
+table td {
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid var(--clr-surface-a20);
+    white-space: nowrap;
+    width: 1%;
+}
+
+table th:last-child,
+table td:last-child {
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid var(--clr-surface-a20);
+    white-space: nowrap;
+    width: auto;
+}
+
+table th {
+    text-align: left;
+    font-weight: bold;
+}
