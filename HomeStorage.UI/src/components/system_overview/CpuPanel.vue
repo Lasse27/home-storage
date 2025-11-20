@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { fetchCpuInfo } from '@/services/system'
-import type { SystemCpuResponse } from '@/types/system';
+import { type CpuTimesResponse, type SystemCpuResponse } from '@/types/system';
 import { round } from '@/services/math_helpers';
 import CpuPanelLoad from './CpuPanelLoad.vue';
+import CpuPanelStats from './CpuPanelStats.vue';
+import CpuPanelTimes from './CpuPanelTimes.vue';
 
 const data = ref<SystemCpuResponse | null>(null);
+const times_sum = ref<CpuTimesResponse | null>(null)
 const loading = ref(false);
 const error = ref<unknown>(null);
 
@@ -23,7 +26,11 @@ async function fetchData() {
     }
 }
 
-onMounted(() => fetchData())
+onMounted(() => {
+    fetchData();
+
+
+})
 
 </script>
 
@@ -33,6 +40,8 @@ onMounted(() => fetchData())
         <div v-if="loading">Lade ...</div>
         <div v-else-if="error">Fehler: {{ error }}</div>
         <div v-else-if="data !== null">
+
+
             <h2>Task Auslastung in Prozent %</h2>
             <CpuPanelLoad :min_1_load="round(data?.cpu_load?.min_1_load, 3)"
                 :min_5_load="round(data?.cpu_load?.min_5_load, 3)"
@@ -40,32 +49,13 @@ onMounted(() => fetchData())
 
 
             <h2>CPU Statistiken</h2>
-            <table class="sys-table">
-                <thead>
-                    <tr>
-                        <th>Statistik</th>
-                        <th>Wert</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td> ctx_switches</td>
-                        <td>{{ round(data?.cpu_stats?.ctx_switches, 3) }}</td>
-                    </tr>
-                    <tr>
-                        <td> interrupts</td>
-                        <td>{{ round(data?.cpu_stats?.interrupts, 3) }}</td>
-                    </tr>
-                    <tr>
-                        <td> soft_interrupts</td>
-                        <td>{{ round(data?.cpu_stats?.soft_interrupts, 3) }}</td>
-                    </tr>
-                    <tr>
-                        <td> syscalls</td>
-                        <td>{{ round(data?.cpu_stats?.syscalls, 3) }}</td>
-                    </tr>
-                </tbody>
-            </table>
+            <CpuPanelStats :ctx_switches="round(data?.cpu_stats?.ctx_switches, 3)"
+                :interrupts="round(data?.cpu_stats?.interrupts, 3)"
+                :soft_interrupts="round(data?.cpu_stats?.soft_interrupts, 3)"
+                :syscalls="round(data?.cpu_stats?.syscalls, 3)" />
+
+            <h2>CPU Times</h2>
+            <CpuPanelTimes :guest="data?.cpu_times?.guest" />
         </div>
     </div>
 </template>

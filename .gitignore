@@ -211,3 +211,4 @@ __screenshots__/
 # Unwanted
 package-lock.json
 static/
+.vs/

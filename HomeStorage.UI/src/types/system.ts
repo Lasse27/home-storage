@@ -17,6 +17,8 @@ export interface CpuTimesResponse {
     steal: number;
     guest: number;
     guest_nice: number;
+    interrupt: number;
+    dpc: number;
 }
 
 
