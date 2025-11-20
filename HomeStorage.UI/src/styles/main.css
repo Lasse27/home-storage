@@ -165,6 +165,12 @@ table th {
     box-sizing: border-box;
 }
 
+.panel .panel-body {
+    padding: 0 0.75rem;
+    display: flex;
+    flex-direction: column;
+}
+
 .panel h1 {
     box-sizing: border-box;
     padding: 0.75rem;
@@ -185,4 +191,5 @@ table th {
     align-items: center;
     border-bottom: 2px solid var(--clr-surface-a20);
     margin-bottom: 0.5rem;
+    margin-top: 1rem;
 }

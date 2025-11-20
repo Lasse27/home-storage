@@ -52,7 +52,7 @@ onMounted(() => {
             </h3>
             {{ error }}
         </div>
-        <div v-else-if="data !== null">
+        <div v-else-if="data !== null" class="panel-body">
             
             <h2>Task Auslastung in Prozent %</h2>
             <CpuPanelLoad :min_1_load="round(data.cpu_load.min_1_load, 3)"
