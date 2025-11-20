@@ -66,3 +66,9 @@ export function generateAverageCpuTimes(cpu_times?: CpuTimesResponse[]): CpuTime
     console.log(avg)
     return avg;
 }
+
+export function generateAverageCpuPercs(percs: number[] = []): number {
+    if (percs.length === 0) return 0;
+    const sum = percs.reduce((a, b) => a + b, 0);
+    return sum / percs.length;
+}

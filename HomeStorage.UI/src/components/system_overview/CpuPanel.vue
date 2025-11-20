@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import { fetchCpuInfo } from '@/services/system'
+import { ref, onMounted, computed } from 'vue';
+import { fetchCpuInfo, generateAverageCpuPercs } from '@/services/system'
 import { defaultCpuTimesResponse, defaultSystemCpuResponse, type CpuTimesResponse, type SystemCpuResponse } from '@/types/system';
 import { round } from '@/services/math_helpers';
 import CpuPanelLoad from './CpuPanelLoad.vue';
@@ -8,8 +8,11 @@ import CpuPanelStats from './CpuPanelStats.vue';
 import CpuPanelTimes from './CpuPanelTimes.vue';
 import { generateAverageCpuTimes } from '@/services/system';
 
+
 const data = ref<SystemCpuResponse>(defaultSystemCpuResponse());
-const times_avg = ref<CpuTimesResponse>(defaultCpuTimesResponse())
+const times_avg = ref<CpuTimesResponse>(defaultCpuTimesResponse());
+const percs_avg = ref<number>(0);
+const percs_avg_circle = computed(() => 722.2 * (1 - (percs_avg.value / 100)))
 const loading = ref(false);
 const error = ref<unknown>(null);
 
@@ -22,6 +25,7 @@ async function fetchData() {
     try {
         data.value = await fetchCpuInfo()
         times_avg.value = generateAverageCpuTimes(data.value.cpu_times)
+        percs_avg.value = round(generateAverageCpuPercs(data.value.cpu_percs), 1)
     } catch (err) {
         error.value = err;
     } finally {
@@ -53,7 +57,26 @@ onMounted(() => {
             {{ error }}
         </div>
         <div v-else-if="data !== null" class="panel-body">
-            
+
+            <h2>Auslastung in Prozent</h2>
+
+            <div style="width: 50%;">
+                <svg width="100%" height="100%" viewBox="-31.25 -31.25 312.5 312.5" xmlns="http://www.w3.org/2000/svg"
+                    style="transform:rotate(-90deg)">
+
+                    <circle r="115" cx="125" cy="125" fill="transparent" stroke="#ffffff" stroke-width="18"></circle>
+
+                    <circle r="115" cx="125" cy="125" stroke="#4caf50" stroke-width="26" stroke-linecap="butt"
+                        :stroke-dashoffset="percs_avg_circle" fill="transparent" stroke-dasharray="722.2"></circle>
+
+                    <text x="74px" y="147px" fill="#ffffff" font-size="64px" font-weight="bold"
+                        style="transform:rotate(90deg) translate(0px, -246px)">{{ percs_avg }}</text>
+
+                </svg>
+            </div>
+
+
+
             <h2>Task Auslastung in Prozent %</h2>
             <CpuPanelLoad :min_1_load="round(data.cpu_load.min_1_load, 3)"
                 :min_5_load="round(data?.cpu_load.min_5_load, 3)" :min_15_load="round(data?.cpu_load.min_15_load, 3)" />
