@@ -4,13 +4,13 @@ import { nextTick } from 'vue';
 const DashBoard = () => import('../pages/DashBoard.vue')
 const FileManager = () => import('../pages/FileManager.vue')
 const Settings = () => import('../pages/Settings.vue')
-const About = () => import('../pages/About.vue')
+const System = () => import('../pages/System.vue')
 const app_routes = [
   { path: '/', redirect: '/dashboard' },
   { path: '/dashboard', name: 'dashboard', component: DashBoard, meta: { title: 'HomeStorage | Dashboard' } },
   { path: '/files', name: 'files', component: FileManager, meta: { title: 'HomeStorage | Files' } },
+  { path: '/system', name: 'system', component: System, meta: { title: 'HomeStorage | System' } },
   { path: '/settings', name: 'settings', component: Settings, meta: { title: 'HomeStorage | Settings' } },
-  { path: '/about', name: 'about', component: About, meta: { title: 'HomeStorage | About' } },
   { path: '/:pathMatch(.*)*', redirect: '/' },
 ]
 
@@ -19,7 +19,7 @@ const router = createRouter({
   routes: app_routes,
 })
 
-const DEFAULT_TITLE = 'Some Default Title';
+const DEFAULT_TITLE = 'HomeStorage';
 router.afterEach((to, from) => {
   // Use next tick to handle router history correctly
   // see: https://github.com/vuejs/vue-router/issues/914#issuecomment-384477609

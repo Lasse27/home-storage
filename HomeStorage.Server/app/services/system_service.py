@@ -19,6 +19,8 @@ class _CpuService:
                 steal=float(getattr(item, "steal", 0)),
                 guest=float(getattr(item, "guest", 0)),
                 guest_nice=float(getattr(item, "guest_nice", 0)),
+                interrupt=float(getattr(item, "interrupt", 0)),
+                dpc=float(getattr(item, "dpc", 0)),
             )
             out_list.append(mapped_item)
         return out_list

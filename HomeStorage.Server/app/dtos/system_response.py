@@ -82,6 +82,16 @@ class CpuTimesResponse(BaseModel):
     Nice time spent executing guest virtual machines.
     """
 
+    interrupt: float = 0.0
+    """
+    Time spent for servicing hardware interrupts 
+    """
+
+    dpc: float = 0.0
+    """
+    Time spent servicing deferred procedure calls (DPCs); DPCs are interrupts that run at a lower priority than standard interrupts
+    """
+
 
 class CpuFreqResponse(BaseModel):
     """ 
