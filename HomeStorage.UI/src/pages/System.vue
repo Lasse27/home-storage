@@ -32,6 +32,7 @@ import { Info } from 'lucide-vue-next'
 
     display: flex;
     flex-direction: column;
+    overflow: scroll;
 }
 
 .system-page .panel-container {
@@ -47,42 +48,7 @@ import { Info } from 'lucide-vue-next'
     grid-template-areas: "cpu memory disk";
 }
 
-.system-page .panel {
-    height: 100%;
-    width: 100%;
-    background-color: var(--clr-surface-a10);
-    border: 2px solid var(--clr-surface-a20);
-    border-radius: 0.5rem;
-    padding: 0.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
 
-.system-page .panel h1 {
-    width: 100%;
-    font-size: 1.25rem;
-    background-color: var(--clr-surface-a20);
-    border: 2px solid var(--clr-surface-a30);
-    border-radius: 0.5rem;
-    padding: 0.25rem;
-    margin: 0;
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.system-page .panel h2 {
-    width: 100%;
-    font-size: 1rem;
-    padding: 0.5rem 0.25rem;
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    border-bottom: 2px solid var(--clr-surface-a20);
-    margin-bottom: 0.5rem;
-}
 
 /* ------------------------- */
 /* HÜBSCHERE TABELLE */
