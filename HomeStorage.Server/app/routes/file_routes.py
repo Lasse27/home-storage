@@ -9,7 +9,8 @@
 / GET    /files/download/<file_id>  -> Download a file by ID
 """
 
-from flask import Blueprint, request, jsonify, g
+import traceback
+from flask import Blueprint, current_app, request, jsonify, g
 from app.repositories import FileRepository
 from app.services.file_service import FileService
 from app.services.exceptions import ServiceException
@@ -39,7 +40,8 @@ def read_multiple_files():
         return jsonify({"error": service_e.message, "meta": service_e.meta}), service_e.status
 
     except Exception as e:
-        return jsonify({"error": "Unhandled server error", "meta": str(e)}), 500
+        current_app.logger.error(traceback.format_exc())
+        return jsonify({"error": "Unhandled server error"}), 500
 
 
 @file_bp.route("/<string:file_id>", methods=["GET"])
@@ -57,7 +59,8 @@ def read_single_file(file_id: str):
         return jsonify({"error": service_e.message, "meta": service_e.meta}), service_e.status
 
     except Exception as e:
-        return jsonify({"error": "Unhandled server error", "meta": str(e)}), 500
+        current_app.logger.error(traceback.format_exc())
+        return jsonify({"error": "Unhandled server error"}), 500
 
 
 # # Updates metadata of a specific file by ID
@@ -98,7 +101,8 @@ def upload_file():
         return jsonify({"error": rs_e.message, "meta": rs_e.meta}), rs_e.status
 
     except Exception as e:
-        return jsonify({"error": "Unhandled server error", "meta": str(e)}), 500
+        current_app.logger.error(traceback.format_exc())
+        return jsonify({"error": "Unhandled server error"}), 500
 
 
 # # Downloads a specific file by ID
