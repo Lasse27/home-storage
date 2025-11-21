@@ -1,4 +1,4 @@
-import { defaultCpuFreqResponse, defaultCpuTimesResponse, type CpuFreqResponse, type CpuTimesResponse, type SystemCpuResponse } from "@/types/system";
+import { defaultCpuFreqResponse, defaultCpuTimesResponse, type SystemMemoryResponse, type CpuFreqResponse, type CpuTimesResponse, type SystemCpuResponse } from "@/types/system";
 import apiBase from "./api";
 import { round } from "./math_helpers";
 
@@ -16,7 +16,7 @@ export async function fetchCpuInfo(): Promise<SystemCpuResponse> {
 
 
 export async function fetchMemoryInfo() {
-    const res = await apiBase.get('/system/memory');
+    const res = await apiBase.get<SystemMemoryResponse>('/system/memory');
     return res.data;
 }
 

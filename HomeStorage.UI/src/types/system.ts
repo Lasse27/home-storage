@@ -98,3 +98,67 @@ export function defaultSystemCpuResponse(): SystemCpuResponse {
         cpu_freqs: []
     }
 }
+
+export interface MemoryVirtualResponse {
+    total: number;
+    available: number;
+    percent: number;
+    used: number;
+    free: number;
+    active: number;
+    inactive: number;
+    buffers: number;
+    cached: number;
+    shared: number;
+    slab: number;
+    wired: number;
+}
+
+export function defaultMemoryVirtualResponse(): MemoryVirtualResponse {
+    return {
+        total: 0,
+        available: 0,
+        percent: 0,
+        used: 0,
+        free: 0,
+        active: 0,
+        inactive: 0,
+        buffers: 0,
+        cached: 0,
+        shared: 0,
+        slab: 0,
+        wired: 0,
+    }
+}
+
+export interface MemorySwapResponse {
+    total: number;
+    used: number;
+    free: number;
+    percent: number;
+    sin: number;
+    sout: number;
+}
+
+export function defaultMemorySwapResponse(): MemorySwapResponse {
+    return {
+        total: 0,
+        used: 0,
+        free: 0,
+        percent: 0,
+        sin: 0,
+        sout: 0,
+    }
+}
+
+export interface SystemMemoryResponse {
+    virtual: MemoryVirtualResponse;
+    swap: MemorySwapResponse;
+}
+
+export function defaultSystemMemoryResponse(): SystemMemoryResponse {
+    return {
+        virtual: defaultMemoryVirtualResponse(),
+        swap: defaultMemorySwapResponse()
+    }
+}

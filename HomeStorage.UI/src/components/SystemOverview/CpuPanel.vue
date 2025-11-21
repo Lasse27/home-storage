@@ -99,8 +99,8 @@ onMounted(() => {
 <style lang="css" scoped>
 .cpu-circle-panel {
     display: grid;
-    grid-template-columns: 25% 1fr;
-    grid-template-rows: auto;
+    grid-template-columns: auto auto;
+    grid-template-rows: 10rem;
     gap: 1rem;
 }
 
