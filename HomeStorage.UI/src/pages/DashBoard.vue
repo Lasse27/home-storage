@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import ProgressCircle from '@/components/common/ProgressCircle.vue';
 import PageHeader from '@/components/PageHeader.vue';
 import { Home } from 'lucide-vue-next'
 </script>
@@ -16,6 +17,10 @@ import { Home } from 'lucide-vue-next'
             </div>
             <div class="panel" style="grid-area: system;">
                 <div class="panel-header"> System-Übersicht </div>
+                <div style="width: 50%;">
+                    <ProgressCircle :percent="88" :show-text="true"/>
+
+                </div>
             </div>
 
         </div>

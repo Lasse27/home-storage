@@ -1,27 +1,35 @@
 <script setup lang="ts">
+// Methods
 import { ref, onMounted } from 'vue';
-import { fetchCpuInfo } from '@/services/system'
-import { defaultCpuTimesResponse, defaultSystemCpuResponse, type CpuTimesResponse, type SystemCpuResponse } from '@/types/system';
+import * as system from '@/services/system'
+import * as system_types from '@/types/system';
 import { round } from '@/services/math_helpers';
-import CpuPanelLoad from './CpuPanelLoad.vue';
-import CpuPanelStats from './CpuPanelStats.vue';
-import CpuPanelTimes from './CpuPanelTimes.vue';
-import { generateAverageCpuTimes } from '@/services/system';
+// Vue Components
+import CpuPanelLoad from '@/components/SystemOverview/CpuPanel/CpuPanelLoad.vue';
+import CpuPanelStats from '@/components/SystemOverview/CpuPanel/CpuPanelStats.vue';
+import CpuPanelTimes from '@/components/SystemOverview/CpuPanel/CpuPanelTimes.vue';
+import CpuPanelFreqs from '@/components/SystemOverview/CpuPanel/CpuPanelFreqs.vue';
+import ProgressCircle from '@/components/common/ProgressCircle.vue';
 
-const data = ref<SystemCpuResponse>(defaultSystemCpuResponse());
-const times_avg = ref<CpuTimesResponse>(defaultCpuTimesResponse())
+
+// Var
+const data = ref<system_types.SystemCpuResponse>(system_types.defaultSystemCpuResponse());
+const times_avg = ref<system_types.CpuTimesResponse>(system_types.defaultCpuTimesResponse());
+const freqs_avg = ref<system_types.CpuFreqResponse>(system_types.defaultCpuFreqResponse())
+const percs_avg = ref<number>(0);
 const loading = ref(false);
 const error = ref<unknown>(null);
 
-// Fetches cpu data from /api/system/cpu
+
+/** Fetches cpu data from /api/system/cpu */
 async function fetchData() {
     error.value = null;
     loading.value = true;
-
-
     try {
-        data.value = await fetchCpuInfo()
-        times_avg.value = generateAverageCpuTimes(data.value.cpu_times)
+        data.value = await system.fetchCpuInfo()
+        times_avg.value = system.generateAverageCpuTimes(data.value.cpu_times)
+        freqs_avg.value = system.generateAverageCpuFreqs(data.value.cpu_freqs)
+        percs_avg.value = round(system.generateAverageCpuPercs(data.value.cpu_percs), 1)
     } catch (err) {
         error.value = err;
     } finally {
@@ -29,22 +37,27 @@ async function fetchData() {
     }
 }
 
-
+/** Executes on mount of component. */
 onMounted(() => {
     fetchData();
 })
 
 </script>
 
+
 <template>
     <div class="panel" style="grid-area: cpu;">
         <h1> CPU </h1>
+
+        <!-- Display while the api is being fetched -->
         <div v-if="loading"
             style="display: flex; justify-content: center; align-items: center; flex-direction: column; margin-top: 1rem;">
             <h3>
                 Daten werden geladen ...
             </h3>
         </div>
+
+        <!-- Display if error occured while fetching -->
         <div v-else-if="error"
             style="display: flex; justify-content: center; align-items: center; flex-direction: column;  margin-top: 1rem;">
             <h3>
@@ -52,8 +65,17 @@ onMounted(() => {
             </h3>
             {{ error }}
         </div>
+
+
+        <!-- Normal display -->
         <div v-else-if="data !== null" class="panel-body">
-            
+
+            <h2>Auslastung in Prozent</h2>
+            <div class="cpu-circle-panel">
+                <ProgressCircle :percent="percs_avg" />
+                <CpuPanelFreqs :current="freqs_avg.current" :min="freqs_avg.min" :max="freqs_avg.max" />
+            </div>
+
             <h2>Task Auslastung in Prozent %</h2>
             <CpuPanelLoad :min_1_load="round(data.cpu_load.min_1_load, 3)"
                 :min_5_load="round(data?.cpu_load.min_5_load, 3)" :min_15_load="round(data?.cpu_load.min_15_load, 3)" />
@@ -73,4 +95,13 @@ onMounted(() => {
     </div>
 </template>
 
-<style lang="css" scoped></style>
+
+<style lang="css" scoped>
+.cpu-circle-panel {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: 10rem;
+    gap: 1rem;
+}
+
+</style>

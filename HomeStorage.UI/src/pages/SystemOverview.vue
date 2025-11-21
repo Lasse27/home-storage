@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import PageHeader from '@/components/PageHeader.vue';
-import CpuPanel from '@/components/system_overview/CpuPanel.vue';
+import CpuPanel from '@/components/SystemOverview/CpuPanel.vue';
+import MemoryPanel from '@/components/SystemOverview/MemoryPanel.vue';
 import { Info } from 'lucide-vue-next'
 
 </script>
@@ -9,12 +10,9 @@ import { Info } from 'lucide-vue-next'
     <div class="system-page">
         <PageHeader title="System" :icon="Info" style="grid-area: header;" />
         <div class="panel-container">
-            <CpuPanel/>
+            <CpuPanel style="grid-area: cpu;"/>
 
-            <div class="panel" style="grid-area: memory;">
-                <h1> Memory </h1>
-
-            </div>
+            <MemoryPanel style="grid-area: memory;"/>
 
             <div class="panel" style="grid-area: disk;">
                 <h1> Disk </h1>

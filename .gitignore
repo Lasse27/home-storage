@@ -212,3 +212,4 @@ __screenshots__/
 package-lock.json
 static/
 .vs/
+.vscode/

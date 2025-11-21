@@ -1,4 +1,4 @@
-import { defaultCpuTimesResponse, type CpuTimesResponse, type SystemCpuResponse } from "@/types/system";
+import { defaultCpuFreqResponse, defaultCpuTimesResponse, type SystemMemoryResponse, type CpuFreqResponse, type CpuTimesResponse, type SystemCpuResponse } from "@/types/system";
 import apiBase from "./api";
 import { round } from "./math_helpers";
 
@@ -16,7 +16,7 @@ export async function fetchCpuInfo(): Promise<SystemCpuResponse> {
 
 
 export async function fetchMemoryInfo() {
-    const res = await apiBase.get('/system/memory');
+    const res = await apiBase.get<SystemMemoryResponse>('/system/memory');
     return res.data;
 }
 
@@ -65,4 +65,27 @@ export function generateAverageCpuTimes(cpu_times?: CpuTimesResponse[]): CpuTime
 
     console.log(avg)
     return avg;
+}
+
+export function generateAverageCpuPercs(percs: number[] = []): number {
+    if (percs.length === 0) return 0;
+    const sum = percs.reduce((a, b) => a + b, 0);
+    return sum / percs.length;
+}
+
+export function generateAverageCpuFreqs(freqs: CpuFreqResponse[] = []): CpuFreqResponse {
+
+    if (freqs.length === 0) return defaultCpuFreqResponse();
+
+    let out = defaultCpuFreqResponse()
+    for (let i = 0; i < freqs.length; i++) {
+        out.current += freqs[i]?.current ?? 0;
+        out.min += freqs[i]?.min ?? 0;
+        out.max += freqs[i]?.max ?? 0;
+    }
+
+    out.current = round(out.current / freqs.length, 2);
+    out.min = round(out.min / freqs.length, 2);
+    out.max = round(out.max / freqs.length, 2);
+    return out;
 }
