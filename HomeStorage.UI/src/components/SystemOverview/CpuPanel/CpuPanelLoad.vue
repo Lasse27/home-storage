@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { round } from '@/services/math_helpers';
-
 const props = defineProps({
     min_1_load: Number,
     min_5_load: Number,

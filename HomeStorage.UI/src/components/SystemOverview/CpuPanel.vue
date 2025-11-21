@@ -1,31 +1,35 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
-import { fetchCpuInfo, generateAverageCpuPercs } from '@/services/system'
-import { defaultCpuTimesResponse, defaultSystemCpuResponse, type CpuTimesResponse, type SystemCpuResponse } from '@/types/system';
+// Methods
+import { ref, onMounted } from 'vue';
+import * as system from '@/services/system'
+import * as system_types from '@/types/system';
 import { round } from '@/services/math_helpers';
-import CpuPanelLoad from './CpuPanelLoad.vue';
-import CpuPanelStats from './CpuPanelStats.vue';
-import CpuPanelTimes from './CpuPanelTimes.vue';
-import { generateAverageCpuTimes } from '@/services/system';
+// Vue Components
+import CpuPanelLoad from '@/components/SystemOverview/CpuPanel/CpuPanelLoad.vue';
+import CpuPanelStats from '@/components/SystemOverview/CpuPanel/CpuPanelStats.vue';
+import CpuPanelTimes from '@/components/SystemOverview/CpuPanel/CpuPanelTimes.vue';
+import CpuPanelFreqs from '@/components/SystemOverview/CpuPanel/CpuPanelFreqs.vue';
+import ProgressCircle from '@/components/common/ProgressCircle.vue';
 
 
-const data = ref<SystemCpuResponse>(defaultSystemCpuResponse());
-const times_avg = ref<CpuTimesResponse>(defaultCpuTimesResponse());
+// Var
+const data = ref<system_types.SystemCpuResponse>(system_types.defaultSystemCpuResponse());
+const times_avg = ref<system_types.CpuTimesResponse>(system_types.defaultCpuTimesResponse());
+const freqs_avg = ref<system_types.CpuFreqResponse>(system_types.defaultCpuFreqResponse())
 const percs_avg = ref<number>(0);
-const percs_avg_circle = computed(() => 722.2 * (1 - (percs_avg.value / 100)))
 const loading = ref(false);
 const error = ref<unknown>(null);
 
-// Fetches cpu data from /api/system/cpu
+
+/** Fetches cpu data from /api/system/cpu */
 async function fetchData() {
     error.value = null;
     loading.value = true;
-
-
     try {
-        data.value = await fetchCpuInfo()
-        times_avg.value = generateAverageCpuTimes(data.value.cpu_times)
-        percs_avg.value = round(generateAverageCpuPercs(data.value.cpu_percs), 1)
+        data.value = await system.fetchCpuInfo()
+        times_avg.value = system.generateAverageCpuTimes(data.value.cpu_times)
+        freqs_avg.value = system.generateAverageCpuFreqs(data.value.cpu_freqs)
+        percs_avg.value = round(system.generateAverageCpuPercs(data.value.cpu_percs), 1)
     } catch (err) {
         error.value = err;
     } finally {
@@ -33,22 +37,27 @@ async function fetchData() {
     }
 }
 
-
+/** Executes on mount of component. */
 onMounted(() => {
     fetchData();
 })
 
 </script>
 
+
 <template>
     <div class="panel" style="grid-area: cpu;">
         <h1> CPU </h1>
+
+        <!-- Display while the api is being fetched -->
         <div v-if="loading"
             style="display: flex; justify-content: center; align-items: center; flex-direction: column; margin-top: 1rem;">
             <h3>
                 Daten werden geladen ...
             </h3>
         </div>
+
+        <!-- Display if error occured while fetching -->
         <div v-else-if="error"
             style="display: flex; justify-content: center; align-items: center; flex-direction: column;  margin-top: 1rem;">
             <h3>
@@ -56,26 +65,16 @@ onMounted(() => {
             </h3>
             {{ error }}
         </div>
+
+
+        <!-- Normal display -->
         <div v-else-if="data !== null" class="panel-body">
 
             <h2>Auslastung in Prozent</h2>
-
-            <div style="width: 50%;">
-                <svg width="100%" height="100%" viewBox="-31.25 -31.25 312.5 312.5" xmlns="http://www.w3.org/2000/svg"
-                    style="transform:rotate(-90deg)">
-
-                    <circle r="115" cx="125" cy="125" fill="transparent" stroke="#ffffff" stroke-width="18"></circle>
-
-                    <circle r="115" cx="125" cy="125" stroke="#4caf50" stroke-width="26" stroke-linecap="butt"
-                        :stroke-dashoffset="percs_avg_circle" fill="transparent" stroke-dasharray="722.2"></circle>
-
-                    <text x="74px" y="147px" fill="#ffffff" font-size="64px" font-weight="bold"
-                        style="transform:rotate(90deg) translate(0px, -246px)">{{ percs_avg }}</text>
-
-                </svg>
+            <div class="cpu-circle-panel">
+                <ProgressCircle :percent="percs_avg" />
+                <CpuPanelFreqs :current="freqs_avg.current" :min="freqs_avg.min" :max="freqs_avg.max" />
             </div>
-
-
 
             <h2>Task Auslastung in Prozent %</h2>
             <CpuPanelLoad :min_1_load="round(data.cpu_load.min_1_load, 3)"
@@ -96,4 +95,13 @@ onMounted(() => {
     </div>
 </template>
 
-<style lang="css" scoped></style>
+
+<style lang="css" scoped>
+.cpu-circle-panel {
+    display: grid;
+    grid-template-columns: 25% 1fr;
+    grid-template-rows: auto;
+    gap: 1rem;
+}
+
+</style>

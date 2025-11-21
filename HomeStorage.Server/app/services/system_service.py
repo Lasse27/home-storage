@@ -59,7 +59,7 @@ class _CpuService:
         return util_call
 
     def get_cpu_percs(self) -> list[float]:
-        util_call = psutil.cpu_percent(0.1, True)
+        util_call = psutil.cpu_percent(1, True)
         return util_call
 
 

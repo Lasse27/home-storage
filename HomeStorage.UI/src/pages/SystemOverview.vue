@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import PageHeader from '@/components/PageHeader.vue';
-import CpuPanel from '@/components/system_overview/CpuPanel.vue';
+import CpuPanel from '@/components/SystemOverview/CpuPanel.vue';
 import { Info } from 'lucide-vue-next'
 
 </script>

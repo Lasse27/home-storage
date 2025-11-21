@@ -53,6 +53,14 @@ export interface CpuFreqResponse {
     max: number;
 }
 
+export function defaultCpuFreqResponse(): CpuFreqResponse {
+    return {
+        current: 0,
+        min: 0,
+        max: 0,
+    }
+}
+
 
 export interface CpuLoadResponse {
     min_1_load: number;

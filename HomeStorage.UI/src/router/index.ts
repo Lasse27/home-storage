@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { nextTick } from 'vue';
 
-const DashBoard = () => import('../pages/DashBoard.vue')
-const FileManager = () => import('../pages/FileManager.vue')
-const Settings = () => import('../pages/Settings.vue')
-const System = () => import('../pages/System.vue')
+const DashBoard = () => import('@/pages/DashBoard.vue')
+const FileManager = () => import('@/pages/FileManager.vue')
+const Settings = () => import('@/pages/Settings.vue')
+const System = () => import('@/pages/SystemOverview.vue')
 const app_routes = [
   { path: '/', redirect: '/dashboard' },
   { path: '/dashboard', name: 'dashboard', component: DashBoard, meta: { title: 'HomeStorage | Dashboard' } },
