@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import PageHeader from '@/components/PageHeader.vue';
 import CpuPanel from '@/components/SystemOverview/CpuPanel.vue';
+import DiskPanel from '@/components/SystemOverview/DiskPanel.vue';
 import MemoryPanel from '@/components/SystemOverview/MemoryPanel.vue';
 import { Info } from 'lucide-vue-next'
 
@@ -10,14 +11,9 @@ import { Info } from 'lucide-vue-next'
     <div class="system-page">
         <PageHeader title="System" :icon="Info" style="grid-area: header;" />
         <div class="panel-container">
-            <CpuPanel style="grid-area: cpu;"/>
-
-            <MemoryPanel style="grid-area: memory;"/>
-
-            <div class="panel" style="grid-area: disk;">
-                <h1> Disk </h1>
-
-            </div>
+            <CpuPanel style="grid-area: cpu;" />
+            <MemoryPanel style="grid-area: memory;" />
+            <DiskPanel style="grid-area: disk" />
         </div>
     </div>
 </template>
@@ -51,5 +47,4 @@ import { Info } from 'lucide-vue-next'
 /* ------------------------- */
 /* HÜBSCHERE TABELLE */
 /* ------------------------- */
-
 </style>
