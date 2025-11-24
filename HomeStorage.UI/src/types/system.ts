@@ -4,7 +4,6 @@ export interface CpuStatsResponse {
     soft_interrupts: number;
     syscalls: number;
 }
-
 export function defaultCpuStatsResponse(): CpuStatsResponse {
     return {
         ctx_switches: 0,
@@ -13,6 +12,7 @@ export function defaultCpuStatsResponse(): CpuStatsResponse {
         syscalls: 0,
     }
 }
+
 
 export interface CpuTimesResponse {
     user: number;
@@ -28,7 +28,6 @@ export interface CpuTimesResponse {
     interrupt: number;
     dpc: number;
 }
-
 export function defaultCpuTimesResponse(): CpuTimesResponse {
     return {
         user: 0,
@@ -52,7 +51,6 @@ export interface CpuFreqResponse {
     min: number;
     max: number;
 }
-
 export function defaultCpuFreqResponse(): CpuFreqResponse {
     return {
         current: 0,
@@ -67,8 +65,6 @@ export interface CpuLoadResponse {
     min_5_load: number;
     min_15_load: number;
 }
-
-
 export function defaultCpuLoadResponse(): CpuLoadResponse {
     return {
         min_1_load: 0,
@@ -86,8 +82,6 @@ export interface SystemCpuResponse {
     cpu_times: CpuTimesResponse[]
     cpu_freqs: CpuFreqResponse[]
 }
-
-
 export function defaultSystemCpuResponse(): SystemCpuResponse {
     return {
         cpu_count: 0,
@@ -98,6 +92,7 @@ export function defaultSystemCpuResponse(): SystemCpuResponse {
         cpu_freqs: []
     }
 }
+
 
 export interface MemoryVirtualResponse {
     total: number;
@@ -113,7 +108,6 @@ export interface MemoryVirtualResponse {
     slab: number;
     wired: number;
 }
-
 export function defaultMemoryVirtualResponse(): MemoryVirtualResponse {
     return {
         total: 0,
@@ -131,6 +125,7 @@ export function defaultMemoryVirtualResponse(): MemoryVirtualResponse {
     }
 }
 
+
 export interface MemorySwapResponse {
     total: number;
     used: number;
@@ -139,7 +134,6 @@ export interface MemorySwapResponse {
     sin: number;
     sout: number;
 }
-
 export function defaultMemorySwapResponse(): MemorySwapResponse {
     return {
         total: 0,
@@ -151,14 +145,90 @@ export function defaultMemorySwapResponse(): MemorySwapResponse {
     }
 }
 
+
 export interface SystemMemoryResponse {
     virtual: MemoryVirtualResponse;
     swap: MemorySwapResponse;
 }
-
 export function defaultSystemMemoryResponse(): SystemMemoryResponse {
     return {
         virtual: defaultMemoryVirtualResponse(),
         swap: defaultMemorySwapResponse()
+    }
+}
+
+
+export interface DiskPartitionResponse {
+    device: String;
+    mountpoint: String;
+    fstype: String;
+    opts: String;
+}
+export function defaultDiskPartitionResponse(): DiskPartitionResponse {
+    return {
+        device: "",
+        mountpoint: "",
+        fstype: "",
+        opts: "",
+    }
+}
+
+
+export interface DiskUsageResponse {
+    device: String;
+    total: number;
+    used: number;
+    free: number;
+    percent: number;
+}
+export function defaultDiskUsageResponse(): DiskUsageResponse {
+    return {
+        device: "",
+        total: 0,
+        used: 0,
+        free: 0,
+        percent: 0,
+    }
+}
+
+
+export interface DiskIoCountersResponse {
+    device: String;
+    read_count: number;
+    write_count: number;
+    read_bytes: number;
+    write_bytes: number;
+    read_time: number;
+    write_time: number;
+    busy_time: number;
+    read_merged_count: number;
+    write_merged_count: number;
+}
+export function defaultDiskIoCountersResponse(): DiskIoCountersResponse {
+    return {
+        device: "",
+        read_count: 0,
+        write_count: 0,
+        read_bytes: 0,
+        write_bytes: 0,
+        read_time: 0,
+        write_time: 0,
+        busy_time: 0,
+        read_merged_count: 0,
+        write_merged_count: 0,
+    }
+}
+
+
+export interface SystemDiskResponse {
+    partitions: DiskPartitionResponse[]
+    usage: DiskUsageResponse[]
+    io_counters: DiskIoCountersResponse[]
+}
+export function defaultSystemDiskResponse(): SystemDiskResponse {
+    return {
+        partitions: [],
+        usage: [],
+        io_counters: []
     }
 }
