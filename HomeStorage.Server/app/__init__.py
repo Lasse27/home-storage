@@ -72,17 +72,17 @@ def create_app(dev: bool):
 
 
 def get_database_url(dev: bool):
-    user = os.getenv("DB_USER", "postgres")
+    user = os.getenv("POSTGRES_USER", "postgres")
     if user is None:
-        LOGGER.warning("DB_USER nicht gesetzt!")
+        LOGGER.warning("POSTGRES_USER nicht gesetzt!")
 
-    password = os.getenv("DB_PASSWORD", "password")
+    password = os.getenv("POSTGRES_PASSWORD", "password")
     if password is None:
-        LOGGER.warning("DB_PASSWORD nicht gesetzt!")
+        LOGGER.warning("POSTGRES_PASSWORD nicht gesetzt!")
 
-    db_name = os.getenv("DB_NAME", "homestorage_db")
+    db_name = os.getenv("POSTGRES_DB", "homestorage_db")
     if db_name is None:
-        LOGGER.warning("DB_NAME nicht gesetzt!")
+        LOGGER.warning("POSTGRES_DB nicht gesetzt!")
     if not dev:
         return f"postgresql://{user}:{password}@db:5432/{db_name}"
     else:

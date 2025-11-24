@@ -1,6 +1,4 @@
-#--------------------------------
-# Vue-Projekt bauen
-#--------------------------------
+# Build ui
 npm run build --prefix HomeStorage.UI
 $staticP = "HomeStorage.Server\app"
 $staticF = "HomeStorage.Server\app\static"
