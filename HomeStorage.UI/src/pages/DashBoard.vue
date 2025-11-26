@@ -1,5 +1,8 @@
 <script lang="ts" setup>
 import ProgressCircle from '@/components/common/ProgressCircle.vue';
+import QuickActions from '@/components/DashBoard/QuickActions.vue';
+import RecentlyAdded from '@/components/DashBoard/RecentlyAdded.vue';
+import SystemSummary from '@/components/DashBoard/SystemSummary.vue';
 import PageHeader from '@/components/PageHeader.vue';
 import { Home } from 'lucide-vue-next'
 </script>
@@ -9,20 +12,9 @@ import { Home } from 'lucide-vue-next'
         <PageHeader title="Dashboard" :icon="Home" />
         <div class="panel-container">
             <!-- Dashboard content goes here -->
-            <div class="panel" style="grid-area: recently_added;">
-                <div class="panel-header"> Zuletzt hinzugefügt </div>
-            </div>
-            <div class="panel" style="grid-area: quick_actions;">
-                <div class="panel-header"> Schnellaktionen </div>
-            </div>
-            <div class="panel" style="grid-area: system;">
-                <div class="panel-header"> System-Übersicht </div>
-                <div style="width: 50%;">
-                    <ProgressCircle :percent="88" :show-text="true"/>
-
-                </div>
-            </div>
-
+            <RecentlyAdded style="grid-area: recently_added;" />
+            <QuickActions style="grid-area: quick_actions;" />
+            <SystemSummary style="grid-area: system;" />
         </div>
     </div>
 </template>
