@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import ProgressCircle from '@/components/common/ProgressCircle.vue';
-import QuickActions from '@/components/DashBoard/QuickActions.vue';
 import RecentlyAdded from '@/components/DashBoard/RecentlyAdded.vue';
 import SystemSummary from '@/components/DashBoard/SystemSummary.vue';
 import PageHeader from '@/components/PageHeader.vue';
@@ -29,7 +27,7 @@ import { Home } from 'lucide-vue-next'
 
 .home-page .panel-container {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 2fr 1fr;
     grid-template-areas:
         "recently_added system";
     height: 100%;
