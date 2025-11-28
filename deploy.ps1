@@ -1,7 +1,7 @@
 # Build ui
-npm run build --prefix HomeStorage.UI
-$staticP = "HomeStorage.Server\app"
-$staticF = "HomeStorage.Server\app\static"
+npm run build --prefix frontend
+$staticP = "backend\app"
+$staticF = "backend\app\static"
 
 # Alten Flask Static-Ordner löschen
 if ((Test-Path $staticF)) {
@@ -12,7 +12,7 @@ if ((Test-Path $staticF)) {
 New-Item $staticP -Name "static" -ItemType Directory
 
 #  Vue Build in Flask static kopieren
-Copy-Item -Path "HomeStorage.UI\dist\*" -Destination "HomeStorage.Server\app\static" -Recurse -Force
+Copy-Item -Path "frontend\dist\*" -Destination "backend\app\static" -Recurse -Force
 
 # Status ausgeben
 Write-Host "Vue Build nach Flask static/ kopiert"
