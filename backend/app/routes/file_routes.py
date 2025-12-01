@@ -1,21 +1,8 @@
-"""
-/ File Management Endpoints
-----------------------------
-/ GET    /files/                    -> Get multiple file metadata
-/ GET    /files/<file_id>           -> Get single file metadata by ID
-/ PATCH  /files/<file_id>           -> Update file metadata by ID
-/ DELETE /files/<file_id>           -> Delete file by ID
-/ POST   /files/upload              -> Upload a new file
-/ GET    /files/download/<file_id>  -> Download a file by ID
-"""
-
 import traceback
 from flask import Blueprint, current_app, request, jsonify, g
 from app.repositories import FileRepository
 from app.services.file_service import FileService
 from app.services.exceptions import ServiceException
-from app.routes.exceptions import InvalidContentException, InvalidContentTypeException, RouteException
-
 
 file_bp: Blueprint = Blueprint("file_bp", __name__, url_prefix="/api/files")
 
@@ -37,9 +24,10 @@ def read_multiple_files():
         return jsonify(files), 200
 
     except ServiceException as service_e:
-        return jsonify({"error": service_e.message, "meta": service_e.meta}), service_e.status
+        response = {"error": service_e.message, "meta": service_e.meta}
+        return jsonify(response), service_e.status
 
-    except Exception as e:
+    except Exception:
         current_app.logger.error(traceback.format_exc())
         return jsonify({"error": "Unhandled server error"}), 500
 
@@ -56,56 +44,15 @@ def read_single_file(file_id: str):
         return jsonify(files), 200
 
     except ServiceException as service_e:
-        return jsonify({"error": service_e.message, "meta": service_e.meta}), service_e.status
+        response = {"error": service_e.message, "meta": service_e.meta}
+        return jsonify(response), service_e.status
 
-    except Exception as e:
+    except Exception:
         current_app.logger.error(traceback.format_exc())
         return jsonify({"error": "Unhandled server error"}), 500
-
-
-# # Updates metadata of a specific file by ID
-# @file_bp.route("/<string:file_id>", methods=["PATCH"])
-# def update_file_meta(file_id):
-#     return jsonify({"message": f"Update file metadata for file ID: {file_id}"}), 200
-
-
-# # Deletes a specific file by ID
-# @file_bp.route("/<string:file_id>", methods=["DELETE"])
-# def delete_file(file_id):
-#     return jsonify({"message": f"Delete file with ID: {file_id}"}), 200
 
 
 # Uploads a new file
 @file_bp.route("/upload", methods=["POST"])
 def upload_file():
-    try:
-        # Chck for request content type
-        if 'multipart/form-data' not in request.content_type:
-            raise InvalidContentTypeException(
-                message="Content-Type must be multipart/form-data.", meta={"content_type": request.content_type})
-
-        # Check for file in request
-        if 'file' not in request.files:
-            raise InvalidContentException(
-                message="No file part in the request.", meta={})
-
-        # Initialize repository and service
-        repository = FileRepository(g.db)
-        service = FileService(repository)
-
-        # Call service method
-        file = service.create_file(request.files['file'])
-        return jsonify(file), 201
-
-    except RouteException | ServiceException as rs_e:
-        return jsonify({"error": rs_e.message, "meta": rs_e.meta}), rs_e.status
-
-    except Exception as e:
-        current_app.logger.error(traceback.format_exc())
-        return jsonify({"error": "Unhandled server error"}), 500
-
-
-# # Downloads a specific file by ID
-# @file_bp.route("/download/<string:file_id>", methods=["GET"])
-# def download_single_file(file_id):
-#     return jsonify({"message": f"Download file with ID: {file_id}"}), 200
+    pass

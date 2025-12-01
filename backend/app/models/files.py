@@ -1,103 +1,48 @@
 import uuid
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
-from sqlalchemy.orm import relationship
-from datetime import datetime, timezone
-from . import Base
+from datetime import datetime
+from app.extensions import db
 
 
-class File(Base):
+class File(db.Model):
+    # Meta
     __tablename__ = "files"
 
-    id: Mapped[str] = mapped_column(
-        String(36),
-        primary_key=True,
-        default=lambda: str(uuid.uuid4())
-    )
-
-    filename_original: Mapped[str] = mapped_column(
-        String(255),
-        nullable=False,
-        index=True
-    )
-
-    filename_disk: Mapped[str] = mapped_column(
-        String(255),
-        nullable=False
-    )
-
-    storage_path: Mapped[str] = mapped_column(
-        String,
-        nullable=False
-    )
-
-    mime_type: Mapped[str] = mapped_column(
-        String(255),
-        nullable=False,
-        index=True
-    )
-
-    size: Mapped[int] = mapped_column(
-        Integer,
-        nullable=False,
-        index=True
-    )
-
-    created_at: Mapped[datetime] = mapped_column(
-        DateTime,
-        default=datetime.now(timezone.utc),
-        nullable=False
-    )
+    # Columns
+    id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    filename_original = db.Column(db.String(255), nullable=False)
+    filename_disk = db.Column(db.String(255), nullable=False)
+    storage_path = db.Column(db.String, nullable=False)
+    mime_type = db.Column(db.String(255), nullable=False)
+    size = db.Column(db.Integer, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
     # Relationships
-    file_tags = relationship(
-        "FileTag",
-        back_populates="file",
-        # Wenn die Datei gelöscht wird, lösche auch die zugehörigen Tags in der Verknüpfungstabelle
-        cascade="all, delete-orphan"
+    file_tags = db.relationship(
+        "FileTag", back_populates="file", cascade="all, delete-orphan", lazy=True
     )
 
 
-class FileTag(Base):
+class FileTag(db.Model):
+    # Meta
     __tablename__ = "file_tags"
 
     # Columns
-    file_id: Mapped[str] = mapped_column(
-        ForeignKey("files.id"),
-        primary_key=True
-    )
-
-    tag_id: Mapped[str] = mapped_column(
-        ForeignKey("tags.id"),
-        primary_key=True
-    )
+    file_id = db.Column(db.String(36), db.ForeignKey("files.id"), primary_key=True)
+    tag_id = db.Column(db.String(36), db.ForeignKey("tags.id"), primary_key=True)
 
     # Relationships
-    file = relationship("File", back_populates="file_tags")
-    tag = relationship("Tag", back_populates="file_tags")
+    file = db.relationship("File", back_populates="file_tags")
+    tag = db.relationship("Tag", back_populates="file_tags")
 
 
-class Tag(Base):
-
+class Tag(db.Model):
+    # Meta
     __tablename__ = "tags"
 
     # Columns
-    id: Mapped[str] = mapped_column(
-        String(36),
-        primary_key=True,
-        index=True,
-        default=lambda: str(uuid.uuid4())
-    )
-
-    name: Mapped[str] = mapped_column(
-        String(255),
-        unique=True,
-        index=True
-    )
-
-    color: Mapped[str] = mapped_column(
-        String(255)
-    )
+    id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    name = db.Column(db.String(255), unique=True, index=True, nullable=False)
+    color = db.Column(db.String(255), nullable=True)
 
     # Relationships
-    file_tags = relationship("FileTag", back_populates="tag")
+    file_tags = db.relationship("FileTag", back_populates="tag", lazy=True)

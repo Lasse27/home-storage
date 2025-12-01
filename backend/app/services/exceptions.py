@@ -8,11 +8,15 @@ class ServiceException(Exception):
         self.meta = meta
 
 
-class InvalidParameterException(ServiceException):
+class InvalidPagingParameterException(ServiceException):
     """Exception raised for invalid parameters in requests."""
 
-    def __init__(self, message: str, meta: dict, *args: object) -> None:
-        super().__init__(message, meta, *args)
+    def __init__(self, meta: dict, *args: object) -> None:
+        super().__init__(
+            "Invalid paging parameters. Offset must be non-negative and limit must be positive.",
+            meta,
+            *args,
+        )
         self.status = 400
 
 
